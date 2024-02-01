@@ -114,5 +114,50 @@
 <!-- Include the post.js script -->
 <script src="post.js"></script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        // Function to extract query parameter value by name
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Retrieve the Gist ID from the URL parameter
+        const gistId = getQueryParam('id');
+
+        if (gistId) {
+            // GitHub Gist API endpoint
+            const gistApiEndpoint = `https://api.github.com/gists/${gistId}`;
+
+            try {
+                // Fetch Gist content
+                const response = await fetch(gistApiEndpoint);
+                const gistData = await response.json();
+
+                // Extract necessary information from the Gist data
+                const markdownContent = gistData.files[Object.keys(gistData.files)[0]].content;
+                const title = gistData.description;
+                const publishDate = gistData.updated_at; // Use updated_at as a substitute for publish date
+
+                // Update the post title and content
+                document.getElementById('post-title').textContent = title;
+                document.getElementById('post-date').textContent = publishDate;
+
+                // Convert Markdown to HTML and display the content
+                const converter = new showdown.Converter();
+                const htmlContent = converter.makeHtml(markdownContent);
+                document.getElementById('post-content').innerHTML = htmlContent;
+
+                // Include Prism.js for code highlighting
+                Prism.highlightAll();
+            } catch (error) {
+                console.error('Error fetching Gist:', error);
+                document.getElementById('post-content').innerHTML = '<p>Error loading Gist content.</p>';
+            }
+        } else {
+            document.getElementById('post-content').innerHTML = '<p>No Gist ID provided in the URL.</p>';
+        }
+    });
+</script>
 </body>
 </html>
