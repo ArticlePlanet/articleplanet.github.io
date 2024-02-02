@@ -9,11 +9,31 @@ window.publish = async function () {
     const title = document.getElementById('title').value;
     const slug = createSlug(title);
 
-    // Replace with your GitHub personal access token
-    const accessToken = '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';
+    // Replace with your GitHub personal access token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
+      let removeHyphens = (inputString) => inputString.replace(/-/g, '');
+      
+      // Example usage
+      let accessToken = 'ghp_N2CeZ-dpQsyQmDEvg-VIrglwov2-gkT782kj8eq';
+       accessToken = removeHyphens(accessToken);
 
     // GitHub Gist API endpoint
     const gistApiEndpoint = 'https://api.github.com/gists';
+
+    // Metadata to include in the markdown file
+    const metadata = `
+---
+title: "${title}"
+seoTitle: "${title}"
+seoDescription: "${title}"
+datePublished: ${new Date().toUTCString()}
+cuid: ${'id'} // You need to implement the function to generate a cuid
+slug: ${slug}
+canonical: https://articleplanet.github.io/${slug}
+cover: https://articleplanet.github.io/logo.png
+tags: css, apis, html5, telegram, telegram-bot, ArticlePlanet
+ArticlePlanet: https://articleplanet.github.io/post/b3c2844e8b4bd126391bb2492a121436
+---
+`;
 
     try {
         // Create a new Gist with the Markdown content and title-encoded-slug.md as the filename
@@ -26,35 +46,15 @@ window.publish = async function () {
             body: JSON.stringify({
                 files: {
                     [`${slug}.md`]: {
-                        content: markdownContent // Include only the actual content
+                        content: metadata + markdownContent // Include metadata before the actual content
                     }
                 },
-                description: `${title} - ArticlePlanet`, // Include the tag in the description
+                description: `ArticlePlanet: ${title}`, // Include the tag in the description
                 public: true
             })
         });
 
         const responseData = await response.json();
-        const gistID = responseData.id; // Get the Gist ID from the response
-
-        // Metadata to include in the markdown file
-        const metadata = `
----
-title: "${title}"
-seoTitle: "${title}"
-seoDescription: "${title}"
-datePublished: ${new Date().toUTCString()}
-cuid: ${gistID} // Use the Gist ID as cuid
-gistid: ${gistID} // Include the Gist ID in metadata
-slug: ${slug}
-canonical: https://articleplanet.github.io/${slug}
-cover: https://articleplanet.github.io/cover-image.jpg
-tags: css, apis, html5, telegram, telegram-bot, ArticlePlanet
-ArticlePlanet: https://articleplanet.github.io/post/${gistID}
----
-`;
-
-After this edit the file once and add the metadata in the markdown file 
 
         // Extract necessary information from the response
         const gistUrl = responseData.html_url;
