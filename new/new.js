@@ -20,8 +20,7 @@ window.publish = async function () {
     const gistApiEndpoint = 'https://api.github.com/gists';
 
     // Metadata to include in the markdown file
-    const metadata = `
----
+    const metadata = `---
 title: "${title}"
 seoTitle: "${title}"
 seoDescription: "${title}"
