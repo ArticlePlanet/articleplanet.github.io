@@ -135,7 +135,7 @@
           class="navbutton selected right"
           onclick="saveChanges()"
         >
-          UPDATE
+          PUBLISH
         </p>
       </div>
     </div>
@@ -215,7 +215,7 @@
                 Authorization: `Bearer ${accessToken}`,
             },
             body: JSON.stringify({
-                description: document.getElementById("title").value, // Update the Gist description (title)
+                description: gistData.description, // Update the Gist description (title)
                 files: {
                     [currentFilename]: {
                         content: markdownContent,

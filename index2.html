@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Article List</h1>
+
+<ul id="article-list"></ul>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        // GitHub Gist API endpoint
+        const gistApiEndpoint = 'https://api.github.com/users/sh20raj/gists'; // Replace 'yourusername' with your GitHub username
+        const tagToFilter = 'ArticlePlanet'; // Replace with the specific tag you use for Article Planet Gists
+
+        try {
+            // Fetch the list of Gists
+            const response = await fetch(gistApiEndpoint);
+            const gistsData = await response.json();
+
+            // Filter Gists that contain the specified tag in their descriptions
+            const articleGists = gistsData.filter(gist => gist.description && gist.description.includes(tagToFilter));
+
+            // Extract relevant information from each Article Planet Gist
+            const articles = articleGists.map(gist => {
+                const title = gist.description || 'Untitled';
+                const gistId = gist.id;
+                const gistUrl = gist.html_url;
+                return `<li><a href="post.html?id=${gistId}" >${title}</a></li>`;
+            });
+
+            // Display the list of articles
+            document.getElementById('article-list').innerHTML = articles.join('');
+        } catch (error) {
+            console.error('Error fetching Gists:', error);
+            document.getElementById('article-list').innerHTML = '<li>Error loading articles.</li>';
+        }
+    });
+</script>
+
+</body>
+</html>
