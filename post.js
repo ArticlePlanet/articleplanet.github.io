@@ -1,13 +1,23 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    // Function to extract query parameter value by name
     function getQueryParam(name) {
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
+        const paramValue = urlParams.get(name);
+    
+        if (paramValue !== null) {
+            return paramValue;
+        } else {
+            // If parameter is not set, try to extract it from the URL path
+            const pathSegments = window.location.pathname.split('/');
+            const idFromPath = pathSegments[pathSegments.length - 1];
+            
+            // Return the extracted ID from the URL path
+            return idFromPath;
+        }
     }
-
-    // Retrieve the Gist ID from the URL parameter
-    const gistId = getQueryParam('id');
-
+    
+    // Retrieve the Gist ID from the URL parameter or path
+    window.gistId = getQueryParam('id');
+    
     if (gistId) {
         // GitHub Gist API endpoint
         const gistApiEndpoint = `https://api.github.com/gists/${gistId}`;
