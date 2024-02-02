@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publish to GitHub Gist</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Include your preferred Markdown editor library, e.g., CodeMirror -->
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.0/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.62.0/lib/codemirror.css">
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.0/mode/markdown/markdown.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        #post-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .editor-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .editor-container .CodeMirror {
+            height: 300px; /* Set the height based on your preference */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 id="post-title">Publish to GitHub Gist</h1>
+</header>
+
+<div class="editor-container">
+    <textarea id="markdownInput"></textarea>
+    <button onclick="publish()">Publish to Gist</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize CodeMirror
+        const editor = CodeMirror.fromTextArea(document.getElementById('markdownInput'), {
+            mode: 'markdown',
+            lineNumbers: true
+        });
+
+        // Initialize Showdown.js converter
+        const converter = new showdown.Converter();
+
+        // Function to publish content to GitHub Gist
+        window.publish = async function () {
+            const markdownContent = editor.getValue();
+            const htmlContent = converter.makeHtml(markdownContent);
+
+            // Replace with your GitHub personal access token
+            const accessToken = 'YOUR_ACCESS_TOKEN';
+
+            // GitHub Gist API endpoint
+            const gistApiEndpoint = 'https://api.github.com/gists';
+
+            try {
+                const response = await axios.post(gistApiEndpoint, {
+                    files: {
+                        'post.md': {
+                            content: markdownContent
+                        }
+                    },
+                    description: 'New Gist from Post Editor',
+                    public: true
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
+
+                const gistUrl = response.data.html_url;
+                alert(`Gist created successfully!\nGist URL: ${gistUrl}`);
+            } catch (error) {
+                console.error('Error publishing to Gist:', error);
+                alert('Error publishing to Gist. Check the console for details.');
+            }
+        };
+    });
+</script>
+</body>
+</html>
