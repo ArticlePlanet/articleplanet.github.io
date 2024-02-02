@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function saveEdits(gistId, originalFileName) {
     const editedContent = document.getElementById('edited-content').value;
+    let removeHyphens = (inputString) => inputString.replace(/-/g, '');
 
     // Example usage
     let accessToken = 'ghp_N2CeZ-dpQsyQmDEvg-VIrglwov2-gkT782kj8eq';

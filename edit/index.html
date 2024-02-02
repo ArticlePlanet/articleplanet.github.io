@@ -1,27 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>New Post</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="lib/material-icons.css">
-    <link rel="stylesheet" href="lib/base16-light.css">
-    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="lib/default.css">
-    <link rel="stylesheet" href="lib/github-markdown.css">
-    <link rel="stylesheet" href="lib/spell-checker.min.css">
-    <link rel="stylesheet" href="lib/sweetalert.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="lib/material-icons.css" />
+    <link rel="stylesheet" href="lib/base16-light.css" />
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="lib/default.css" />
+    <link rel="stylesheet" href="lib/github-markdown.css" />
+    <link rel="stylesheet" href="lib/spell-checker.min.css" />
+    <link rel="stylesheet" href="lib/sweetalert.css" />
+    <link rel="stylesheet" href="index.css" />
   </head>
   <body id="toplevel">
-    <div id="in"><form><textarea id="code"># New Post</textarea></form></div>
+    <div id="in">
+      <form><textarea id="code"># New Post</textarea></form>
+    </div>
     <div id="out" class="markdown-body"></div>
     <div id="menu">
       <span>Save As</span>
       <div id="saveas-markdown">
         <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
           <g transform="scale(0.0625)">
-            <path d="M950.154 192H73.846C33.127 192 0 225.12699999999995 0 265.846v492.308C0 798.875 33.127 832 73.846 832h876.308c40.721 0 73.846-33.125 73.846-73.846V265.846C1024 225.12699999999995 990.875 192 950.154 192zM576 703.875L448 704V512l-96 123.077L256 512v192H128V320h128l96 128 96-128 128-0.125V703.875zM767.091 735.875L608 512h96V320h128v192h96L767.091 735.875z" />
+            <path
+              d="M950.154 192H73.846C33.127 192 0 225.12699999999995 0 265.846v492.308C0 798.875 33.127 832 73.846 832h876.308c40.721 0 73.846-33.125 73.846-73.846V265.846C1024 225.12699999999995 990.875 192 950.154 192zM576 703.875L448 704V512l-96 123.077L256 512v192H128V320h128l96 128 96-128 128-0.125V703.875zM767.091 735.875L608 512h96V320h128v192h96L767.091 735.875z"
+            />
           </g>
         </svg>
         <span>Markdown</span>
@@ -29,7 +33,9 @@
       <div id="saveas-html">
         <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
           <g transform="scale(0.0625) translate(64,0)">
-            <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z" />
+            <path
+              d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z"
+            />
           </g>
         </svg>
         <span>HTML</span>
@@ -38,25 +44,207 @@
     </div>
     <div id="navbar">
       <div id="navcontent">
-        
-        <p id="post-title" class="left"><a style="color:white;" id="logo" href = "../" tooltip = "Home"><i class="material-icons">home</i></a> 
-        <input max-width="50%" type="text" name="title" id="title" placeholder="Enter Post Title...." style="width:400px;">
+        <p id="post-title" class="left">
+          <a style="color: white" id="logo" href="../" tooltip="Home"
+            ><i class="material-icons">home</i></a
+          >
+          <input
+            max-width="50%"
+            type="text"
+            name="title"
+            id="title"
+            placeholder="Enter Post Title...."
+            style="width: 400px"
+          />
         </p>
-        
-        <p id="openbutton" title="Open from Disk" class="navbutton right" onclick="document.getElementById('fileInput').click();"><i class="material-icons">open_in_browser</i></p>
-        <input id="fileInput" type="file" class="hidden" accept=".md,.mdown,.txt,.markdown"/>
-        <p id="savebutton" title="Download" class="navbutton right" onclick="showMenu()"><i class="material-icons">file_download</i></p>
-        <p id="browsersavebutton" title="Browser Save (Experimental)" class="navbutton right" onclick="saveInBrowser()"><i class="material-icons">save</i></p>
-        <p id="sharebutton" title="Generate Shareable Link" class="navbutton right" onclick="updateHash()"><i class="material-icons">share</i></p>
-        <p id="nightbutton" title="Night Mode" class="navbutton right" onclick="toggleNightMode(this)"><i class="material-icons">invert_colors</i></p>
-        <p id="readbutton" title="Reading Mode" class="navbutton right" onclick="toggleReadMode(this)"><i class="material-icons">chrome_reader_mode</i></p>
-        <p id="spellbutton" title="Spell Check" class="navbutton right selected" onclick="toggleSpellCheck(this)"><i class="material-icons">spellcheck</i></p>
-        <p id="newbutton" class="navbutton right hidden" onclick="clearEditor()">Clear</p>
-        <p id="sharebutton" class="navbutton right selected hidden">Share</p>
-        <p id="sharebutton" style="padding:6px;" title="Publish Post" class="navbutton selected right" onclick="publish()"> PUBLISH </p>
 
+        <p
+          id="openbutton"
+          title="Open from Disk"
+          class="navbutton right"
+          onclick="document.getElementById('fileInput').click();"
+        >
+          <i class="material-icons">open_in_browser</i>
+        </p>
+        <input
+          id="fileInput"
+          type="file"
+          class="hidden"
+          accept=".md,.mdown,.txt,.markdown"
+        />
+        <p
+          id="savebutton"
+          title="Download"
+          class="navbutton right"
+          onclick="showMenu()"
+        >
+          <i class="material-icons">file_download</i>
+        </p>
+        <p
+          id="browsersavebutton"
+          title="Browser Save (Experimental)"
+          class="navbutton right"
+          onclick="saveInBrowser()"
+        >
+          <i class="material-icons">save</i>
+        </p>
+        <p
+          id="sharebutton"
+          title="Generate Shareable Link"
+          class="navbutton right"
+          onclick="updateHash()"
+        >
+          <i class="material-icons">share</i>
+        </p>
+        <p
+          id="nightbutton"
+          title="Night Mode"
+          class="navbutton right"
+          onclick="toggleNightMode(this)"
+        >
+          <i class="material-icons">invert_colors</i>
+        </p>
+        <p
+          id="readbutton"
+          title="Reading Mode"
+          class="navbutton right"
+          onclick="toggleReadMode(this)"
+        >
+          <i class="material-icons">chrome_reader_mode</i>
+        </p>
+        <p
+          id="spellbutton"
+          title="Spell Check"
+          class="navbutton right selected"
+          onclick="toggleSpellCheck(this)"
+        >
+          <i class="material-icons">spellcheck</i>
+        </p>
+        <p
+          id="newbutton"
+          class="navbutton right hidden"
+          onclick="clearEditor()"
+        >
+          Clear
+        </p>
+        <p id="sharebutton" class="navbutton right selected hidden">Share</p>
+        <p
+          id="publishbutton"
+          style="padding: 6px;"
+          title="Publish Post"
+          class="navbutton selected right"
+          onclick="saveChanges()"
+        >
+          PUBLISH
+        </p>
       </div>
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Fetch the current post content and metadata
+        const gistId = getQueryParam("id");
+        if (gistId) {
+          fetchPostContent(gistId);
+        } else {
+          alert("No Gist ID provided in the URL.");
+        }
+      });
+
+      async function fetchPostContent(gistId) {
+        const gistApiEndpoint = `https://api.github.com/gists/${gistId}`;
+        try {
+          const response = await fetch(gistApiEndpoint);
+          const gistData = await response.json();
+          const markdownContent =
+            gistData.files[Object.keys(gistData.files)[0]].content;
+          const title = gistData.description;
+          //const tags = gistData.files[Object.keys(gistData.files)[0]].tags;
+          //const cover = gistData.files[Object.keys(gistData.files)[0]].cover;
+
+          // Set the fetched data to the respective UI elements
+          document.getElementById("title").value = title;
+          //document.getElementById('tags').value = tags;
+          //document.getElementById('cover').value = cover;
+
+          // Assume you have a markdown editor, set the content
+          editor.setValue(markdownContent);
+        } catch (error) {
+          console.error("Error fetching Gist:", error);
+          alert("Error loading Gist content.");
+        }
+      }
+
+      function saveChanges() {
+        const title = document.getElementById("title").value;
+
+        // Assume you have a markdown editor, get the content
+        const markdownContent = editor.getValue();
+
+        // Retrieve the Gist ID from the URL parameter
+        const gistId = getQueryParam("id");
+
+        // Call the save function with the updated data
+        saveToGitHubGist(markdownContent, gistId);
+      }
+
+      // Example usage
+      let accessToken = "ghp_N2CeZ-dpQsyQmDEvg-VIrglwov2-gkT782kj8eq";
+      accessToken = accessToken.replace(/-/g, "");
+
+      async function saveToGitHubGist(markdownContent, gistId) {
+    // GitHub Gist API endpoint
+    const gistApiEndpoint = `https://api.github.com/gists/${gistId}`;
+
+    try {
+        // Fetch the existing Gist data
+        const gistResponse = await fetch(gistApiEndpoint);
+        const gistData = await gistResponse.json();
+
+        // Extract the current filename
+        const currentFilename = Object.keys(gistData.files)[0];
+
+        // Update the title in the Gist data
+        gistData.description = document.getElementById("title").value;
+
+        // Update the existing Gist with the new data
+        const response = await fetch(gistApiEndpoint, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+                description: gistData.description, // Update the Gist description (title)
+                files: {
+                    [currentFilename]: {
+                        content: markdownContent,
+                    },
+                },
+            }),
+        });
+
+        // Check if the update was successful
+        if (response.ok) {
+            // Inform the user about successful saving
+            swal("Changes Saved Successfully!", "", "success");
+        } else {
+            console.error("Error updating Gist:", response.statusText);
+            swal("Error", "Failed to save changes. Check the console for details.", "error");
+        }
+    } catch (error) {
+        console.error("Error updating Gist:", error);
+        swal("Error", "Failed to save changes. Check the console for details.", "error");
+    }
+}
+
+      // Function to extract query parameter value by name
+      function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+    </script>
+
     <script src="lib/markdown-it.js"></script>
     <script src="lib/markdown-it-footnote.js"></script>
     <script src="lib/highlight.pack.js"></script>
@@ -73,9 +261,8 @@
     <script src="lib/spell-checker.min.js"></script>
     <script src="lib/rawinflate.js"></script>
     <script src="lib/rawdeflate.js"></script>
-    <script src = "lib/sweetalert.min.js"></script>
+    <script src="lib/sweetalert.min.js"></script>
     <script src="index.js"></script>
     <script src="new.js"></script>
-    
   </body>
 </html>

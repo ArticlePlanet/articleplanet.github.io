@@ -1,14 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Post</title>
-</head>
-<body>
-    <h1>Edit Post</h1>
-    <div id="edit-content"></div>
+    <title>Edit Post - ArticlePlanet</title>
 
-    <script src="edit-post.js"></script>
+    <!-- Include necessary stylesheets or frameworks for better UI -->
+    <link rel="stylesheet" href="path/to/your/styles.css">
+</head>
+
+<body>
+
+    <div id="edit-post-container">
+        <h1>Edit Post</h1>
+
+        <!-- Title Input -->
+        <label for="title">Title:</label>
+        <input type="text" id="title" placeholder="Enter your post title">
+
+        <!-- Metadata Input (Add more fields as needed) -->
+        <label for="tags">Tags:</label>
+        <input type="text" id="tags" placeholder="Enter tags, separated by commas">
+
+        <label for="cover">Cover Image URL:</label>
+        <input type="text" id="cover" placeholder="Enter the cover image URL">
+
+        <!-- Markdown Editor (Assuming you have an editor component) -->
+        <div id="markdown-editor">
+            <!-- Your markdown editor component goes here -->
+        </div>
+
+        <!-- Save Button -->
+        <button onclick="saveChanges()">Save Changes</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch the current post content and metadata
+            const gistId = getQueryParam('id');
+            if (gistId) {
+                fetchPostContent(gistId);
+            } else {
+                alert('No Gist ID provided in the URL.');
+            }
+        });
+
+        async function fetchPostContent(gistId) {
+            const gistApiEndpoint = `https://api.github.com/gists/${gistId}`;
+            try {
+                const response = await fetch(gistApiEndpoint);
+                const gistData = await response.json();
+                const markdownContent = gistData.files[Object.keys(gistData.files)[0]].content;
+                const title = gistData.description;
+                const tags = gistData.files[Object.keys(gistData.files)[0]].tags;
+                const cover = gistData.files[Object.keys(gistData.files)[0]].cover;
+
+                // Set the fetched data to the respective UI elements
+                document.getElementById('title').value = title;
+                document.getElementById('tags').value = tags;
+                document.getElementById('cover').value = cover;
+
+                // Assume you have a markdown editor, set the content
+                setMarkdownEditorContent(markdownContent);
+            } catch (error) {
+                console.error('Error fetching Gist:', error);
+                alert('Error loading Gist content.');
+            }
+        }
+
+        function setMarkdownEditorContent(content) {
+            // Assume you have a markdown editor component, set the content
+            // Replace this with your actual logic to set content in the editor
+            console.log('Setting content in the markdown editor:', content);
+        }
+
+        function saveChanges() {
+            const title = document.getElementById('title').value;
+            const tags = document.getElementById('tags').value;
+            const cover = document.getElementById('cover').value;
+
+            // Assume you have a markdown editor, get the content
+            const markdownContent = getMarkdownEditorContent();
+
+            // Implement logic to save changes to GitHub Gist using the edited data
+            // You can use the existing publish logic with necessary modifications
+
+            // For example:
+            // Call your save function with the updated data
+            saveToGitHubGist(title, tags, cover, markdownContent);
+        }
+
+        function getMarkdownEditorContent() {
+            // Assume you have a markdown editor component, get the content
+            // Replace this with your actual logic to get content from the editor
+            return 'Updated Markdown Content';
+        }
+
+        function saveToGitHubGist(title, tags, cover, markdownContent) {
+            // Implement your logic to save changes to GitHub Gist
+            // Use the existing publish logic with necessary modifications
+            // For example, update the existing Gist with the new data
+            // You can reuse the existing publish function with some modifications
+            // ...
+
+            // Inform the user about successful saving
+            alert('Changes saved successfully!');
+        }
+
+        // Function to extract query parameter value by name
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+    </script>
+
 </body>
+
 </html>
