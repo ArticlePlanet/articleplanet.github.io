@@ -590,6 +590,158 @@
       </section>
       <!-- Container for Section 2 -->
 
+      <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+          // GitHub Gist API endpoint
+          const gistApiEndpoint = "https://api.github.com/users/sh20raj/gists"; // Replace 'yourusername' with your GitHub username
+          const tagToFilter = "ArticlePlanet"; // Replace with the specific tag you use for Article Planet Gists
+
+          try {
+            // Fetch the list of Gists
+            const response = await fetch(gistApiEndpoint);
+            const gistsData = await response.json();
+
+            // Filter Gists that contain the specified tag in their descriptions
+            const articleGists = gistsData;
+
+            // Extract relevant information from each Article Planet Gist
+            const articles = await Promise.all(
+              articleGists.map(async (gist) => {
+                const title = gist.description || "Untitled";
+                const gistId = gist.id;
+                const gistUrl = gist.html_url;
+
+                // Extract date and cover URL from the Markdown content
+                const markdownContentResponse = await fetch(
+                  gist.files[Object.keys(gist.files)[0]].raw_url
+                );
+                const markdownContent = await markdownContentResponse.text();
+
+                function extractMetadata(markdown) {
+                  const match = markdown.match(/^---([\s\S]*?)---([\s\S]*)/);
+                  const metadata = {};
+
+                  if (match && match[1]) {
+                    const metadataText = match[1].trim();
+
+                    metadataText.split("\n").forEach((line) => {
+                      const [key, ...valueParts] = line
+                        .split(":")
+                        .map((item) => item.trim());
+                      metadata[key] = valueParts
+                        .join(":")
+                        .replace(/(^"|"$)/g, "")
+                        .trim();
+                    });
+
+                    // Convert tags to an array
+                    metadata.tags = metadata.tags
+                      ? metadata.tags.split(",").map((tag) => tag.trim())
+                      : [];
+                  }
+
+                  return metadata;
+                }
+
+                const meta = extractMetadata(markdownContent);
+                console.log(meta.title);
+                if(!meta.ArticlePlanet){
+                  return '';
+                }
+
+                function convertToRelativeDate(dateString) {
+                  const currentDate = new Date();
+                  const providedDate = new Date(dateString);
+
+                  const timeDifferenceInSeconds = Math.floor((currentDate - providedDate) / 1000);
+
+                  if (timeDifferenceInSeconds < 60) {
+                      return 'just now';
+                  } else if (timeDifferenceInSeconds < 3600) {
+                      const minutes = Math.floor(timeDifferenceInSeconds / 60);
+                      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+                  } else if (timeDifferenceInSeconds < 86400) {
+                      const hours = Math.floor(timeDifferenceInSeconds / 3600);
+                      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+                  } else if (timeDifferenceInSeconds < 2592000) {
+                      const days = Math.floor(timeDifferenceInSeconds / 86400);
+                      return `${days} day${days > 1 ? 's' : ''} ago`;
+                  } else {
+                      // You can add more conditions for months and years as needed
+                      return 'more than a month ago';
+                  }
+              }
+
+                let date = convertToRelativeDate(meta.datePublished);
+                let coverUrl = meta.cover;
+                console.log(coverUrl);
+
+                // Create HTML elements based on the fetched Gists
+                return `
+                <!-- begin post -->
+          <div class="card">
+            <a href="post.html?id=${gistId}">
+              <img class="img-fluid" src="${coverUrl || "https://random.imagecdn.app/500/150"}" alt="" />
+            </a>
+            <div class="card-block">
+              <h2 class="card-title">
+                <a href="post.html?id=${gistId}"
+                  >${title}?</a
+                >
+              </h2>
+              <h4 class="card-text">
+                
+              </h4>
+              <div class="metafooter">
+                <div class="wrapfooter">
+                  <span class="meta-footer-thumb">
+                    <a href="author.html"
+                      ><img
+                        class="author-thumb"
+                        src="https://avatars.githubusercontent.com/u/66713844?v=4"
+                        alt="SH20RAJ"
+                    /></a>
+                  </span>
+                  <span class="author-meta">
+                    <span class="post-name"><a href="author.html">Sal</a></span
+                    ><br />
+                    <span class="post-date">${date}</span
+                    ><span class="dot"></span
+                    ><span class="post-read">2 min read</span>
+                  </span>
+                  <span class="post-read-more"
+                    ><a href="post.html?id=${gistId}" title="Read Story"
+                      ><svg
+                        class="svgIcon-use"
+                        width="25"
+                        height="25"
+                        viewbox="0 0 25 25"
+                      >
+                        <path
+                          d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z"
+                          fill-rule="evenodd"
+                        ></path></svg></a
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end post -->
+                `;
+              })
+            );
+
+            // Insert the generated HTML into the postcontainer
+            document.getElementById("section2-container").innerHTML =
+              articles.join("");
+          } catch (error) {
+            console.error("Error fetching Gists:", error);
+            document.getElementById("section2-container").innerHTML =
+              "<p>Error loading articles.</p>";
+          }
+        });
+      </script>
+
       <!-- End List Posts
 	================================================== -->
 
