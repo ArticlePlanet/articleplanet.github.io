@@ -20,7 +20,9 @@ const urlParams = new URLSearchParams(window.location.search);
 function getGitHubAccessToken() {
     return urlParams.get('access_token');
 }
-function token(){
+
+// Function to exchange authorization code for access token
+async function token(authorizationCode) {
     try {
         const response = await fetch('https://github.com/login/oauth/access_token', {
             method: 'POST',
@@ -44,7 +46,6 @@ function token(){
     } catch (error) {
         console.error('Error exchanging authorization code for access token:', error);
     }
-    
 }
 
 // Example usage
@@ -52,7 +53,7 @@ document.getElementById('login-button').addEventListener('click', async () => {
     // If there is an authorization code in the URL, exchange it for an access token
     const authorizationCode = urlParams.get('code');
     if (authorizationCode) {
-        token()
+        await token(authorizationCode); // Use await to make sure the function completes before moving on
     } else {
         // If there is no authorization code, initiate the GitHub OAuth login
         loginWithGitHub();
