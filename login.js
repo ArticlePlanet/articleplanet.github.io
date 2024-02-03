@@ -14,17 +14,18 @@ async function loginWithGitHub() {
     // Redirect the user to the GitHub OAuth login page
     window.location.href = authUrl;
 }
+    const urlParams = new URLSearchParams(window.location.search);
 
 // Check if there is an access token in the URL (returned from GitHub OAuth)
 function getGitHubAccessToken() {
-    const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('access_token');
 }
+
 
 // Function to exchange authorization code for access token
 async function exchangeCodeForToken(authorizationCode) {
     try {
-        const response = await fetch('https://f358c19f-37cd-465e-b6b5-b2dc9c758a1d-00-2k311t0ufsen6.pike.replit.dev/api/exchange-code', {
+        const response = await fetch('https://login-article.netlify.app/api/exchange-code', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,11 +48,13 @@ async function exchangeCodeForToken(authorizationCode) {
         console.error('Error exchanging authorization code for access token:', error);
     }
 }
-
+    const authorizationCode = getGitHubAccessToken();
+if (urlParams.get('code')) {
+    exchangeCodeForToken(urlParams.get('code'));
+} 
 // Example usage
 document.getElementById('login-button').addEventListener('click', async () => {
     // If there is an authorization code in the URL, exchange it for an access token
-    const authorizationCode = getGitHubAccessToken();
     if (authorizationCode) {
         exchangeCodeForToken(authorizationCode);
     } else {
@@ -59,6 +62,8 @@ document.getElementById('login-button').addEventListener('click', async () => {
         loginWithGitHub();
     }
 });
+
+
 
 // Check if there is an access token in the URL when the page loads
 const accessToken = getGitHubAccessToken();
