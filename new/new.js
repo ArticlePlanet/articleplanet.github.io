@@ -66,7 +66,7 @@ tags: css, js, html5, ArticlePlanet
         //const metadataUrl = `${gistUrl}?title=${encodeURIComponent(title)}&publishdate=${encodeURIComponent(publishDate)}&canonical=${encodeURIComponent(canonical)}`;
         //window.open(metadataUrl, '_top');
         const gistID = responseData.id;
-        location.href = location.origin + "/post.html?id=" + gistID ;
+        //location.href = location.origin + "/post.html?id=" + gistID ;
 
         // Inform the user about successful publishing
         swal('Published Successfully!', 'Your post has been published to GitHub Gist.', 'success');
