@@ -25,12 +25,12 @@ title: "${title}"
 seoTitle: "${title}"
 seoDescription: "${title}"
 datePublished: ${new Date().toUTCString()}
-cuid: ${'id'} // You need to implement the function to generate a cuid
+id: ${'id'} // You need to implement the function to generate a cuid
 slug: ${slug}
 canonical: https://articleplanet.github.io/${slug}
 cover: https://articleplanet.github.io/logo.png
 tags: css, apis, html5, telegram, telegram-bot, ArticlePlanet
-ArticlePlanet: https://articleplanet.github.io/post/b3c2844e8b4bd126391bb2492a121436
+ArticlePlanet: https://articleplanet.github.io/posts/
 ---
 `;
 
