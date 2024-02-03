@@ -26,7 +26,7 @@ function getGitHubAccessToken() {
 // Function to exchange authorization code for access token
 async function exchangeCodeForToken(authorizationCode) {
     try {
-        const response = await fetch('https://f358c19f-37cd-465e-b6b5-b2dc9c758a1d-00-2k311t0ufsen6.pike.replit.dev/api/exchange-code/', {
+        const response = await fetch('https://f358c19f-37cd-465e-b6b5-b2dc9c758a1d-00-2k311t0ufsen6.pike.replit.dev/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
