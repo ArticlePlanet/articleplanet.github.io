@@ -73,5 +73,6 @@ if (accessToken) {
     // The user has successfully logged in with GitHub
     // You can send the access token to your server for further processing
     console.log('GitHub Access Token:', accessToken);
+    location.href = "../";
     // Redirect or perform other actions as needed
 }
