@@ -14,10 +14,10 @@ async function loginWithGitHub() {
     // Redirect the user to the GitHub OAuth login page
     window.location.href = authUrl;
 }
+const urlParams = new URLSearchParams(window.location.search);
 
 // Check if there is an access token in the URL (returned from GitHub OAuth)
 function getGitHubAccessToken() {
-    const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('access_token');
 }
 
