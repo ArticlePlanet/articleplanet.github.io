@@ -25,7 +25,7 @@ function getGitHubAccessToken() {
 // Function to exchange authorization code for access token
 async function exchangeCodeForToken(authorizationCode) {
     try {
-        const response = await fetch('https://login-article.netlify.app/api/exchange-code', {
+        const response = await fetch('login-articleplanet.vercel.app/api/exchange-code', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
