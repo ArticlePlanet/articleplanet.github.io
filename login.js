@@ -14,17 +14,17 @@ async function loginWithGitHub() {
     // Redirect the user to the GitHub OAuth login page
     window.location.href = authUrl;
 }
-const urlParams = new URLSearchParams(window.location.search);
 
 // Check if there is an access token in the URL (returned from GitHub OAuth)
 function getGitHubAccessToken() {
+    const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('access_token');
 }
 
 // Function to exchange authorization code for access token
-async function token(authorizationCode) {
+async function exchangeCodeForToken(authorizationCode) {
     try {
-        const response = await fetch('https://github.com/login/oauth/access_token', {
+        const response = await fetch('https://automatic-computing-machine-46g5q65j55qcqpvx-3001.app.github.dev/api/exchange-code', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,9 +51,9 @@ async function token(authorizationCode) {
 // Example usage
 document.getElementById('login-button').addEventListener('click', async () => {
     // If there is an authorization code in the URL, exchange it for an access token
-    const authorizationCode = urlParams.get('code');
+    const authorizationCode = getGitHubAccessToken();
     if (authorizationCode) {
-        await token(authorizationCode); // Use await to make sure the function completes before moving on
+        exchangeCodeForToken(authorizationCode);
     } else {
         // If there is no authorization code, initiate the GitHub OAuth login
         loginWithGitHub();
