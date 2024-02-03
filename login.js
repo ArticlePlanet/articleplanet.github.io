@@ -1,8 +1,10 @@
 // login.js
-
+let removeHyphens = (inputString) => inputString.replace(/-/g, '');
 // Replace these values with your GitHub OAuth App credentials
-const clientId = '11de8f416159bc1b5bf2';
-const redirectUri = '43f31fd2ed2105a8d9d27e1463edf401a807a5ae';
+const clientId = removeHyphens('11de-8f416159-bc1b5bf2');
+
+const redirectUri = 'https://articleplanet.vercel.app/login.html';
+
 const scope = 'user';
 
 // Function to initiate GitHub OAuth login
