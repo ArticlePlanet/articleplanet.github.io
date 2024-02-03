@@ -16,6 +16,8 @@ window.publish = async function () {
       
       // Example usage
       let accessToken = localStorage.accessToken;
+      console.log(accessToken)
+      accessToken = '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';
 
     // GitHub Gist API endpoint
     const gistApiEndpoint = 'https://api.github.com/gists';
