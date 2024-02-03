@@ -42,6 +42,7 @@ async function exchangeCodeForToken(authorizationCode) {
 
         const data = await response.json();
         const accessToken = data.access_token;
+        localStorage.accessToken = accessToken;
 
         // You now have the access token, you can send it to your server or perform other actions
         console.log('GitHub Access Token:', accessToken);

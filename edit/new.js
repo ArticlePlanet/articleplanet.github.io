@@ -13,8 +13,7 @@ window.publish = async function () {
       let removeHyphens = (inputString) => inputString.replace(/-/g, '');
       
       // Example usage
-      let accessToken = 'gho_Rm6gizGGulEsr-SImzQZmtLrfd-Rqb0H2q8V3m';
-       accessToken = removeHyphens(accessToken);
+      let accessToken = localStorage.accessToken;
 
     // GitHub Gist API endpoint
     const gistApiEndpoint = 'https://api.github.com/gists';
