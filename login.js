@@ -20,35 +20,39 @@ const urlParams = new URLSearchParams(window.location.search);
 function getGitHubAccessToken() {
     return urlParams.get('access_token');
 }
+function token(){
+    try {
+        const response = await fetch('https://github.com/login/oauth/access_token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                client_id: clientId,
+                client_secret: clientSecret,
+                code: authorizationCode,
+                redirect_uri: redirectUri,
+            }),
+        });
+
+        const data = await response.json();
+        const accessToken = data.access_token;
+
+        // You now have the access token, you can send it to your server or perform other actions
+        console.log('GitHub Access Token:', accessToken);
+    } catch (error) {
+        console.error('Error exchanging authorization code for access token:', error);
+    }
+    
+}
 
 // Example usage
 document.getElementById('login-button').addEventListener('click', async () => {
     // If there is an authorization code in the URL, exchange it for an access token
     const authorizationCode = urlParams.get('code');
     if (authorizationCode) {
-        try {
-            const response = await fetch('https://github.com/login/oauth/access_token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    client_id: clientId,
-                    client_secret: clientSecret,
-                    code: authorizationCode,
-                    redirect_uri: redirectUri,
-                }),
-            });
-
-            const data = await response.json();
-            const accessToken = data.access_token;
-
-            // You now have the access token, you can send it to your server or perform other actions
-            console.log('GitHub Access Token:', accessToken);
-        } catch (error) {
-            console.error('Error exchanging authorization code for access token:', error);
-        }
+        token()
     } else {
         // If there is no authorization code, initiate the GitHub OAuth login
         loginWithGitHub();
