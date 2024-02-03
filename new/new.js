@@ -1,7 +1,9 @@
 // Function to create a slug from the title
 function createSlug(title) {
-    return title.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-');
+    const sanitizedTitle = title.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
+    return sanitizedTitle.replace(/-{2,}/g, '-');
 }
+
 
 // Function to publish content to GitHub Gist and open the Gist with metadata
 window.publish = async function () {
@@ -25,12 +27,12 @@ title: "${title}"
 seoTitle: "${title}"
 seoDescription: "${title}"
 datePublished: ${new Date().toUTCString()}
-id: ${'id'} // You need to implement the function to generate a cuid
+id: ${'id'}
 slug: ${slug}
-canonical: https://articleplanet.github.io/${slug}
-cover: https://articleplanet.github.io/logo.png
-tags: css, apis, html5, telegram, telegram-bot, ArticlePlanet
 ArticlePlanet: https://articleplanet.github.io/posts/
+canonical: https://articleplanet.github.io/posts/${slug}
+cover: https://articleplanet.github.io/logo.png
+tags: css, js, html5, ArticlePlanet
 ---
 `;
 
