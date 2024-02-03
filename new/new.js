@@ -16,6 +16,7 @@ window.publish = async function () {
       
       // Example usage
       let accessToken = removeHyphens('ghp_Ixw7ru-DuGAmi-DS58feJJp-I7IWKArPC-1SSlQo');
+      accessToken = localStorage.accessToken;
       console.log(accessToken)
 
     // GitHub Gist API endpoint
