@@ -27,14 +27,63 @@ title: "${title}"
 seoTitle: "${title}"
 seoDescription: "${title}"
 datePublished: ${new Date().toUTCString()}
-id: {gistID}  // Placeholder for gist ID, to be replaced after publishing
+id: {gistID}
 slug: ${slug}
-ArticlePlanet: https://articleplanet.github.io/posts/{gistID}  // Placeholder for gist ID, to be replaced after publishing
-canonical: https://articleplanet.github.io/posts/{gistID}  // Placeholder for gist ID, to be replaced after publishing
+ArticlePlanet: https://articleplanet.github.io/posts/{gistID} 
+canonical: https://articleplanet.github.io/posts/{gistID}
 cover: https://articleplanet.github.io/assets/dot.png
 tags: css, js, html5, ArticlePlanet
 ---
 `;
+async function saveToGitHubGist(markdownContent, gistId) {
+    // GitHub Gist API endpoint
+    const gistApiEndpoint = `https://api.github.com/gists/${gistId}`;
+
+    try {
+        // Fetch the existing Gist data
+        const gistResponse = await fetch(gistApiEndpoint);
+        const gistData = await gistResponse.json();
+
+        // Extract the current filename
+        const currentFilename = Object.keys(gistData.files)[0];
+
+        // Update the title in the Gist data
+        gistData.description = document.getElementById("title").value;
+
+        // Update the existing Gist with the new data
+        const response = await fetch(gistApiEndpoint, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+                description: gistData.description, // Update the Gist description (title)
+                files: {
+                    [currentFilename]: {
+                        content: markdownContent,
+                    },
+                },
+            }),
+        });
+
+        // Check if the update was successful
+        if (response.ok) {
+            // Inform the user about successful saving
+            swal("Changes Saved Successfully!", "", "success");
+            // Inform the user about successful publishing
+        swal('Published Successfully!', 'Your post has been published to GitHub Gist.', 'success');
+       // location.href = location.origin + "/post.html?id=" + gistID;
+
+        } else {
+            console.error("Error updating Gist:", response.statusText);
+            swal("Error", "Failed to save changes. Check the console for details.", "error");
+        }
+    } catch (error) {
+        console.error("Error updating Gist:", error);
+        swal("Error", "Failed to save changes. Check the console for details.", "error");
+    }
+}
 
     try {
         // Create a new Gist with the Markdown content and title-encoded-slug.md as the filename
@@ -64,26 +113,10 @@ tags: css, js, html5, ArticlePlanet
         // Replace placeholders with actual gist ID in metadata
         const updatedMetadata = metadataTemplate.replace(/{gistID}/g, gistID);
         console.log(updatedMetadata);
-
         // Update the Gist with the correct metadata
-        await fetch(gistUrl, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            },
-            body: JSON.stringify({
-                files: {
-                    [`${slug}.md`]: {
-                        content: updatedMetadata + markdownContent // Include updated metadata before the actual content
-                    }
-                }
-            })
-        });
+        await saveToGitHubGist(updatedMetadata + markdownContent,gistID);
+        
 
-        // Inform the user about successful publishing
-        swal('Published Successfully!', 'Your post has been published to GitHub Gist.', 'success');
-        location.href = location.origin + "/post.html?id=" + gistID;
 
     } catch (error) {
         console.error('Error publishing to Gist:', error);
