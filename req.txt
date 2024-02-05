@@ -1,4 +1,5 @@
 https://chat.openai.com/share/ced35a3f-3c40-4c01-9104-039e317dac20
+https://chat.openai.com/share/2079901c-7285-46a3-9fd2-a84281be4aa3
 
       let removeHyphens = (inputString) => inputString.replace(/-/g, '');
       
