@@ -303,7 +303,7 @@
 			const articles = await Promise.all(
 			  selectedArticles.map(async (gist) => {
 				const title = gist.description || "Untitled";
-				window.gistId = gist.id;
+				const gistId = gist.id;
 				const gistUrl = gist.html_url;
 	  
 				// Extract date and cover URL from the Markdown content

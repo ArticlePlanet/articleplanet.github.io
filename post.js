@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', async function () {
-    function getQueryParam(name) {
+ function getQueryParam(name) {
         const urlParams = new URLSearchParams(window.location.search);
         const paramValue = urlParams.get(name);
     
@@ -14,6 +13,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             return idFromPath;
         }
     }
+
+document.addEventListener('DOMContentLoaded', async function () {
+   
     
     // Retrieve the Gist ID from the URL parameter or path
     window.gistId = getQueryParam('id');
@@ -107,3 +109,36 @@ document.addEventListener('DOMContentLoaded', async function () {
     console.log(gistData.owner.avatar_url)
 
 });
+
+async function deletePost() {
+
+    // Display a confirmation dialog
+    const isConfirmed = confirm('Are you sure you want to delete this post?');
+
+    if (!isConfirmed) {
+        // User cancelled the deletion
+        return;
+    }
+
+    try {
+        const response = await fetch(`https://api.github.com/gists/${gistId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.accessToken}`
+            }
+        });
+
+        if (response.ok) {
+            // Successfully deleted, you can handle UI updates or navigate to a different page
+            console.log('Post deleted successfully');
+            // Example: Redirect to the homepage
+            window.location.href = '/';
+        } else {
+            console.error('Error deleting post:', response.statusText);
+            // Handle error, show a message, etc.
+        }
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        // Handle error, show a message, etc.
+    }
+}
