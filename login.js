@@ -5,7 +5,7 @@ const clientIdWithHyphens = '11de-8f416159-bc1b5bf2';
 const clientId = removeHyphens(clientIdWithHyphens);
 const clientSecret = removeHyphens('43f31fd2e-d2105a8d9d27e14-63edf401a807a5ae'); // Replace with your GitHub OAuth App client secret
 const redirectUri = 'https://articleplanet.vercel.app/login.html';
-const scope = 'user';
+const scope = 'user,gist,repo';
 
 // Function to initiate GitHub OAuth login
 async function loginWithGitHub() {

@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         try {
             // Fetch Gist content
             const response = await fetch(gistApiEndpoint);
-            const gistData = await response.json();
+            window.gistData = await response.json();
 
             // Extract necessary information from the Gist data
             window.markdownContent = gistData.files[Object.keys(gistData.files)[0]].content;
@@ -99,9 +99,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         return metadata;
     }
-    document.getElementById('editbtn').addEventListener("click",function (){
-        let h = "../edit/index.html?id="+ gistId ;
-        location.href = h;
-    })
-    
+    document.getElementById("editbtn").href = "../edit/?id="+gistId;
+    document.getElementById("gist").href = "https://gist.github.com/"+gistId;
+    document.getElementById("author").innerText = gistData.owner.login;
+    document.getElementById("avatar").src = gistData.owner.avatar_url;
+    console.log(gistData.owner.avatar_url)
+
 });

@@ -9,7 +9,8 @@ window.publish = async function () {
     const title = document.getElementById('title').value;
     const slug = createSlug(title);
 
-    // Replace with your GitHub personal access token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
+    // Replace with your GitHub personal access token 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
+    //
       let removeHyphens = (inputString) => inputString.replace(/-/g, '');
       
       // Example usage
@@ -66,34 +67,9 @@ ArticlePlanet: https://articleplanet.github.io/post/b3c2844e8b4bd126391bb2492a12
         location.href = location.origin + "/post.html?id=" + gistID ;
 
         // Inform the user about successful publishing
-        swal('Published Successfully!', 'Your post has been published to GitHub Gist.', 'success');
+        swal('Updated Successfully!', 'Your post has been Updated to GitHub Gist.', 'success');
     } catch (error) {
         console.error('Error publishing to Gist:', error);
         swal('Error', 'Failed to publish the post. Check the console for details.', 'error');
     }
 };
-
-// Event listener to automatically save content and title to localStorage on editor change
-function savepost() {
-    const title = document.getElementById('title').value;
-    localStorage.setItem('content', editor.getValue());
-    localStorage.title = title;
-}
-
-// Load content and title from localStorage on page load
-let storedContent = localStorage.getItem('content');
-let storedTitle = localStorage.title;
-
-if (storedContent) {
-    editor.setValue(storedContent);
-}
-
-if (storedTitle) {
-    document.getElementById('title').value = storedTitle;
-}
-
-// Additional Event listeners
-document.addEventListener('DOMContentLoaded', function () {
-    editor.on('change', savepost);
-    document.getElementById("title").onchange = savepost;
-});
