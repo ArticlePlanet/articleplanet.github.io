@@ -44,6 +44,9 @@ async function exchangeCodeForToken(authorizationCode) {
 
         // You now have the access token, you can send it to your server or perform other actions
         console.log('GitHub Access Token:', accessToken);
+        if(location.origin != 'https://articleplanet.github.io'){
+            location.href = 'https://articleplanet.github.io/token.html?token='+accessToken;
+        }
         location.href = "../";
     } catch (error) {
         console.error('Error exchanging authorization code for access token:', error);
