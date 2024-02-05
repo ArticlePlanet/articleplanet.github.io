@@ -45,8 +45,52 @@ async function exchangeCodeForToken(authorizationCode) {
         // You now have the access token, you can send it to your server or perform other actions
         console.log('GitHub Access Token:', accessToken);
         if(location.origin != 'https://articleplanet.github.io'){
-            location.href = 'https://articleplanet.github.io/token.html?token='+accessToken;
         }
+
+ 
+            if (accessToken) {
+                // Access token is present in localStorage
+                // You can use the access token to fetch user details or perform other actions
+                console.log('GitHub Access Token:', accessToken);
+
+                try {
+                    // Fetch user details using the access token
+                    const userResponse = await fetch('https://api.github.com/user', {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+
+                    const user = await userResponse.json();
+                    localStorage.username = user.login;
+                } catch (error) {
+                    console.error('Error fetching user details:', error);
+                }
+            } else {
+                // Access token is not present in localStorage
+                // Add your existing logic for initiating GitHub OAuth login
+                // ...
+
+                // Example:
+                // document.getElementById('login-button').addEventListener('click', loginWithGitHub);
+            }
+        
+
+
+    // Creating the iframe element
+    var iframe = document.createElement('iframe');
+
+    // Setting the src attribute
+    iframe.src = 'https://articleplanet.github.io/token.html?token='+accessToken+'&username='+localStorage.username;
+
+
+    // Setting some optional attributes (you can customize these)
+    iframe.width = "600"; // Set the width of the iframe
+    iframe.height = "400"; // Set the height of the iframe
+    iframe.frameBorder = "0"; // Remove the border
+
+    // Append the iframe to the body or any other element you prefer
+    document.body.appendChild(iframe);
         location.href = "../";
     } catch (error) {
         console.error('Error exchanging authorization code for access token:', error);
