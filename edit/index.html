@@ -189,8 +189,7 @@
       }
 
       // Example usage
-      let accessToken = "ghp_N2CeZ-dpQsyQmDEvg-VIrglwov2-gkT782kj8eq";
-      accessToken = accessToken.replace(/-/g, "");
+      let accessToken = localStorage.accessToken;
 
       async function saveToGitHubGist(markdownContent, gistId) {
     // GitHub Gist API endpoint
@@ -263,6 +262,5 @@
     <script src="lib/rawdeflate.js"></script>
     <script src="lib/sweetalert.min.js"></script>
     <script src="index.js"></script>
-    <script src="new.js"></script>
   </body>
 </html>
