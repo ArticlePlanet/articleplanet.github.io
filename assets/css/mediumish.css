@@ -221,6 +221,7 @@ span.post-name a,span.post-read-more a:hover {
 	font-size:1.2rem;
 	line-height:1.8;
 	color:rgba(0,0,0,.8);
+	overflow: auto;
 }
 .article-post img {
 	max-width: 100%;
