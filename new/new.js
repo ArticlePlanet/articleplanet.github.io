@@ -11,12 +11,13 @@ window.publish = async function () {
     const title = document.getElementById('title').value;
     const slug = createSlug(title);
 
-    // Replace with your GitHub personal access token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
+    // Replace with your GitHub personal access token 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
       let removeHyphens = (inputString) => inputString.replace(/-/g, '');
       
       // Example usage
-      let accessToken = 'ghp_N2CeZ-dpQsyQmDEvg-VIrglwov2-gkT782kj8eq';
-       accessToken = removeHyphens(accessToken);
+      let accessToken = removeHyphens('ghp_Ixw7ru-DuGAmi-DS58feJJp-I7IWKArPC-1SSlQo');
+      accessToken = localStorage.accessToken;
+      console.log(accessToken)
 
     // GitHub Gist API endpoint
     const gistApiEndpoint = 'https://api.github.com/gists';
@@ -66,7 +67,7 @@ tags: css, js, html5, ArticlePlanet
         //const metadataUrl = `${gistUrl}?title=${encodeURIComponent(title)}&publishdate=${encodeURIComponent(publishDate)}&canonical=${encodeURIComponent(canonical)}`;
         //window.open(metadataUrl, '_top');
         const gistID = responseData.id;
-        location.href = location.origin + "/post.html?id=" + gistID ;
+        //location.href = location.origin + "/post.html?id=" + gistID ;
 
         // Inform the user about successful publishing
         swal('Published Successfully!', 'Your post has been published to GitHub Gist.', 'success');
