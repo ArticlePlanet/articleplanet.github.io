@@ -44,7 +44,7 @@
       <div class="container">
         <!-- Begin Logo -->
         <a class="navbar-brand" href="index.html">
-          <img src="assets/img/logo.png" alt="logo" />
+          <img src="logo.png" alt="logo" />
         </a>
         <!-- End Logo -->
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
@@ -100,175 +100,186 @@
 
       <!-- Begin Featured
 	================================================== -->
-      <section class="featured-posts">
-        <div class="section-title">
-          <h2><span>Featured</span></h2>
+      <!-- Begin Featured
+	================================================== -->
+<section class="featured-posts">
+  <div class="section-title">
+    <h2><span>Featured</span></h2>
+  </div>
+  <div class="card-rows listfeaturedtag" id="postcontainer">
+    <!-- Loading skeleton for post -->
+    <div class="card skeleton-loading">
+      <div class="skeleton-image"></div>
+      <div class="card-block">
+        <h2 class="skeleton-title"></h2>
+        <h4 class="skeleton-text"></h4>
+        <div class="metafooter">
+          <div class="wrapfooter">
+            <span class="meta-footer-thumb skeleton-thumb"></span>
+            <span class="author-meta">
+              <span class="post-name skeleton-author"></span><br />
+              <span class="post-date skeleton-date"></span
+              ><span class="dot"></span
+              ><span class="post-read skeleton-read"></span>
+            </span>
+          </div>
         </div>
-        <div class="card-columns listfeaturedtag" id="postcontainer">
-          <!-- begin post 
-		<div class="card">
-			<div class="row">
-				<div class="col-md-5 wrapthumbnail">
-					<a href="post.html">
-						<div class="thumbnail" style="background-image:url(assets/img/demopic/1.jpg);">
-						</div>
-					</a>
-				</div>
-				<div class="col-md-7">
-					<div class="card-block">
-						<h2 class="card-title"><a href="post.html">We're living some strange times</a></h2>
-						<h4 class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</h4>
-						<div class="metafooter">
-							<div class="wrapfooter">
-								<span class="meta-footer-thumb">
-								<a href="author.html"><img class="author-thumb" src="https://www.gravatar.com/avatar/e56154546cf4be74e393c62d1ae9f9d4?s=250&amp;d=mm&amp;r=x" alt="Sal"></a>
-								</span>
-								<span class="author-meta">
-								<span class="post-name"><a href="author.html">Steve</a></span><br/>
-								<span class="post-date">22 July 2017</span><span class="dot"></span><span class="post-read">6 min read</span>
-								</span>
-								<span class="post-read-more"><a href="post.html" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		end post -->
+      </div>
+    </div>
+    <div class="card skeleton-loading">
+      <div class="skeleton-image"></div>
+      <div class="card-block">
+        <h2 class="skeleton-title"></h2>
+        <h4 class="skeleton-text"></h4>
+        <div class="metafooter">
+          <div class="wrapfooter">
+            <span class="meta-footer-thumb skeleton-thumb"></span>
+            <span class="author-meta">
+              <span class="post-name skeleton-author"></span><br />
+              <span class="post-date skeleton-date"></span
+              ><span class="dot"></span
+              ><span class="post-read skeleton-read"></span>
+            </span>
+          </div>
         </div>
-      </section>
-      <script>
-        document.addEventListener("DOMContentLoaded", async function () {
-          // GitHub Gist API endpoint
-          const gistApiEndpoint = "https://api.github.com/users/sh20raj/gists"; // Replace 'yourusername' with your GitHub username
-          const tagToFilter = "ArticlePlanet"; // Replace with the specific tag you use for Article Planet Gists
+      </div>
+    </div>
+    <!-- End loading skeleton -->
+  </div>
+</section>
 
-          try {
-            // Fetch the list of Gists
-            const response = await fetch(gistApiEndpoint);
-            const gistsData = await response.json();
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    // GitHub Gist API endpoint
+    const gistApiEndpoint = "https://api.github.com/users/sh20raj/gists"; // Replace 'yourusername' with your GitHub username
+    const tagToFilter = "ArticlePlanet"; // Replace with the specific tag you use for Article Planet Gists
 
-            // Filter Gists that contain the specified tag in their descriptions
-            const articleGists = gistsData;
+    try {
+      // Fetch the list of Gists
+      const response = await fetch(gistApiEndpoint);
+      const gistsData = await response.json();
 
-            // Extract relevant information from each Article Planet Gist
-            const articles = await Promise.all(
-              articleGists.map(async (gist) => {
-                const title = gist.description || "Untitled";
-                const gistId = gist.id;
-                const gistUrl = gist.html_url;
+      // Filter Gists that contain the specified tag in their descriptions
+      const articleGists = gistsData;
 
+      // Shuffle the array of articles to get random posts
+      const shuffledArticles = articleGists.sort(() => Math.random() - 0.5).slice(0, 1);
 
-                // Extract date and cover URL from the Markdown content
-                const markdownContentResponse = await fetch(
-                  gist.files[Object.keys(gist.files)[0]].raw_url
-                );
-                const markdownContent = await markdownContentResponse.text();
+      // Extract relevant information from each Article Planet Gist
+      const articles = await Promise.all(
+        shuffledArticles.map(async (gist) => {
+          const title = gist.description || "Untitled";
+          const gistId = gist.id;
+          const gistUrl = gist.html_url;
 
-                function extractMetadata(markdown) {
-                  const match = markdown.match(/^---([\s\S]*?)---([\s\S]*)/);
-                  const metadata = {};
+          // Extract date and cover URL from the Markdown content
+          const markdownContentResponse = await fetch(gist.files[Object.keys(gist.files)[0]].raw_url);
+          const markdownContent = await markdownContentResponse.text();
 
-                  if (match && match[1]) {
-                    const metadataText = match[1].trim();
+          function extractMetadata(markdown) {
+            const match = markdown.match(/^---([\s\S]*?)---([\s\S]*)/);
+            const metadata = {};
 
-                    metadataText.split("\n").forEach((line) => {
-                      const [key, ...valueParts] = line
-                        .split(":")
-                        .map((item) => item.trim());
-                      metadata[key] = valueParts
-                        .join(":")
-                        .replace(/(^"|"$)/g, "")
-                        .trim();
-                    });
+            if (match && match[1]) {
+              const metadataText = match[1].trim();
 
-                    // Convert tags to an array
-                    metadata.tags = metadata.tags
-                      ? metadata.tags.split(",").map((tag) => tag.trim())
-                      : [];
-                  }
+              metadataText.split("\n").forEach((line) => {
+                const [key, ...valueParts] = line
+                  .split(":")
+                  .map((item) => item.trim());
+                metadata[key] = valueParts
+                  .join(":")
+                  .replace(/(^"|"$)/g, "")
+                  .trim();
+              });
 
-                  return metadata;
-                }
+              // Convert tags to an array
+              metadata.tags = metadata.tags
+                ? metadata.tags.split(",").map((tag) => tag.trim())
+                : [];
+            }
 
-                const meta = extractMetadata(markdownContent);
-                console.log(meta.title);
-                if(!meta.ArticlePlanet){
-                  return '';
-                }
-
-                function convertToRelativeDate(dateString) {
-                  const currentDate = new Date();
-                  const providedDate = new Date(dateString);
-
-                  const timeDifferenceInSeconds = Math.floor((currentDate - providedDate) / 1000);
-
-                  if (timeDifferenceInSeconds < 60) {
-                      return 'just now';
-                  } else if (timeDifferenceInSeconds < 3600) {
-                      const minutes = Math.floor(timeDifferenceInSeconds / 60);
-                      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-                  } else if (timeDifferenceInSeconds < 86400) {
-                      const hours = Math.floor(timeDifferenceInSeconds / 3600);
-                      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-                  } else if (timeDifferenceInSeconds < 2592000) {
-                      const days = Math.floor(timeDifferenceInSeconds / 86400);
-                      return `${days} day${days > 1 ? 's' : ''} ago`;
-                  } else {
-                      // You can add more conditions for months and years as needed
-                      return 'more than a month ago';
-                  }
-              }
-
-                let date = convertToRelativeDate(meta.datePublished);
-                let coverUrl = meta.cover;
-                console.log(coverUrl);
-
-                // Create HTML elements based on the fetched Gists
-                return `
-                    <!-- begin post -->
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-5 wrapthumbnail">
-                                <a href="post.html?id=${gistId}">
-                                    <div class="thumbnail" style="background-image:url(${coverUrl || "https://random.imagecdn.app/500/500"+"?id="+gistId});"></div>
-                                </a>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="card-block">
-                                    <h2 class="card-title"><a href="post.html?id=${gistId}">${title}</a></h2>
-                                    <h4 class="card-text"></h4>
-                                    <div class="metafooter">
-                                        <div class="wrapfooter">
-                                            <span class="meta-footer-thumb">
-                                                <a href="author.html"><img class="author-thumb" src="${gist.owner.avatar_url}" alt="${gist.owner.login}"></a>
-                                            </span>
-                                            <span class="author-meta">
-                                                <span class="post-name"><a href="author.html">${gist.owner.login}</a></span><br/>
-                                                <span class="post-date">${date}</span><span class="dot"></span><span class="post-read">6 min read</span>
-                                            </span>
-                                            <span class="post-read-more"><a href="post.html?id=${gistId}" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end post -->
-                `;
-              })
-            );
-
-            // Insert the generated HTML into the postcontainer
-            document.getElementById("postcontainer").innerHTML =
-              articles.join("");
-          } catch (error) {
-            console.error("Error fetching Gists:", error);
-            document.getElementById("postcontainer").innerHTML =
-              "<p>Error loading articles.</p>";
+            return metadata;
           }
-        });
-      </script>
+
+          const meta = extractMetadata(markdownContent);
+
+          if (!meta.ArticlePlanet) {
+            return '';
+          }
+
+          function convertToRelativeDate(dateString) {
+            const currentDate = new Date();
+            const providedDate = new Date(dateString);
+            const timeDifferenceInSeconds = Math.floor((currentDate - providedDate) / 1000);
+
+            if (timeDifferenceInSeconds < 60) {
+              return 'just now';
+            } else if (timeDifferenceInSeconds < 3600) {
+              const minutes = Math.floor(timeDifferenceInSeconds / 60);
+              return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            } else if (timeDifferenceInSeconds < 86400) {
+              const hours = Math.floor(timeDifferenceInSeconds / 3600);
+              return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            } else if (timeDifferenceInSeconds < 2592000) {
+              const days = Math.floor(timeDifferenceInSeconds / 86400);
+              return `${days} day${days > 1 ? 's' : ''} ago`;
+            } else {
+              // You can add more conditions for months and years as needed
+              return 'more than a month ago';
+            }
+          }
+
+          let date = convertToRelativeDate(meta.datePublished);
+          let coverUrl = meta.cover;
+
+          // Create HTML elements based on the fetched Gists
+          return `
+            <!-- begin post -->
+            <div class="card">
+              <div class="row">
+                <div class="col-md-5 wrapthumbnail">
+                  <a href="post.html?id=${gistId}">
+                    <div class="thumbnail" style="background-image:url(${coverUrl || "https://random.imagecdn.app/500/500" + "?id=" + gistId});"></div>
+                  </a>
+                </div>
+                <div class="col-md-7">
+                  <div class="card-block">
+                    <h2 class="card-title"><a href="post.html?id=${gistId}">${title}</a></h2>
+                    <h4 class="card-text">${title}<br>ArticlePlanet - 
+Write, Learn and Share Stories with the world</h4>
+                    <div class="metafooter">
+                      <div class="wrapfooter">
+                        <span class="meta-footer-thumb">
+                          <a href="author.html"><img class="author-thumb" src="${gist.owner.avatar_url}" alt="${gist.owner.login}"></a>
+                        </span>
+                        <span class="author-meta">
+                          <span class="post-name"><a href="author.html">${gist.owner.login}</a></span><br/>
+                          <span class="post-date">${date}</span><span class="dot"></span><span class="post-read">6 min read</span>
+                        </span>
+                        <span class="post-read-more"><a href="post.html?id=${gistId}" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end post -->
+          `;
+        })
+      );
+
+      // Insert the generated HTML into the postcontainer
+      document.getElementById("postcontainer").innerHTML = articles.join("");
+    } catch (error) {
+      console.error("Error fetching Gists:", error);
+      document.getElementById("postcontainer").innerHTML = "<p>Error loading articles.</p>";
+    }
+  });
+</script>
+<!-- End Featured
+	================================================== -->
+
 
       <!-- End Featured
 	================================================== -->
@@ -603,7 +614,7 @@
             const gistsData = await response.json();
 
             // Filter Gists that contain the specified tag in their descriptions
-            const articleGists = gistsData;
+            const articleGists = gistsData.sort(() => Math.random() - 0.5);
 
             // Extract relevant information from each Article Planet Gist
             const articles = await Promise.all(
