@@ -32,7 +32,7 @@ id: ${'id'}
 slug: ${slug}
 ArticlePlanet: https://articleplanet.github.io/posts/
 canonical: https://articleplanet.github.io/posts/${slug}
-cover: https://random.imagecdn.app/500/500
+cover: https://articleplanet.github.io/assets/dot.png
 tags: css, js, html5, ArticlePlanet
 ---
 `;
