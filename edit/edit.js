@@ -25,7 +25,7 @@ title: "${title}"
 seoTitle: "${title}"
 seoDescription: "${title}"
 datePublished: ${new Date().toUTCString()}
-cuid: ${'id'} // You need to implement the function to generate a cuid
+cuid: ${'id'}
 slug: ${slug}
 canonical: https://articleplanet.github.io/${slug}
 cover: https://articleplanet.github.io/logo.png

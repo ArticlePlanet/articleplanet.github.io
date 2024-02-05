@@ -226,6 +226,7 @@
         // Check if the update was successful
         if (response.ok) {
             // Inform the user about successful saving
+            saveInBrowser();
             swal("Changes Saved Successfully!", "", "success");
         } else {
             console.error("Error updating Gist:", response.statusText);
