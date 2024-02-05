@@ -44,6 +44,7 @@ async function exchangeCodeForToken(authorizationCode) {
 
         // You now have the access token, you can send it to your server or perform other actions
         console.log('GitHub Access Token:', accessToken);
+        location.href = "../";
     } catch (error) {
         console.error('Error exchanging authorization code for access token:', error);
     }
@@ -62,15 +63,3 @@ document.getElementById('login-button').addEventListener('click', async () => {
         loginWithGitHub();
     }
 });
-
-
-
-// Check if there is an access token in the URL when the page loads
-const accessToken = getGitHubAccessToken();
-if (accessToken) {
-    // The user has successfully logged in with GitHub
-    // You can send the access token to your server for further processing
-    console.log('GitHub Access Token:', accessToken);
-    //location.href = "../";
-    // Redirect or perform other actions as needed
-}
