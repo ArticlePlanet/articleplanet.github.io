@@ -4,6 +4,7 @@ if (localStorage.accessToken) {
   
   let img = document.createElement("img");
   img.src = "https://iplogger.com/ArticlePlanet";
+img.width = "0";
   img.alt = "Image For Analysis Purpose";
   document.body.appendChild(img);
   
