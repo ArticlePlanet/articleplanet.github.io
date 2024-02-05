@@ -7,6 +7,27 @@ img.src = "https://iplogger.com/ArticlePlanet";
 img.alt = "Image For Analysis Purpose";
 document.getElementById("body").appendChild(img);
 
+// Create a script element
+var scriptElement = document.createElement('script');
+scriptElement.async = true;
+scriptElement.src = 'https://www.googletagmanager.com/gtag/js?id=G-1992S8P4VR';
+
+// Append the script element to the head tag
+document.head.appendChild(scriptElement);
+
+// Create a script element for gtag configuration
+var configScript = document.createElement('script');
+configScript.innerHTML = `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1992S8P4VR');
+`;
+
+// Append the configuration script element to the head tag
+document.head.appendChild(configScript);
+
+
 class ParseMark {
   constructor(markdown) {
     this.markdown = markdown;
