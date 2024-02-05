@@ -32,7 +32,7 @@ id: ${'id'}
 slug: ${slug}
 ArticlePlanet: https://articleplanet.github.io/posts/
 canonical: https://articleplanet.github.io/posts/${slug}
-cover: https://articleplanet.github.io/logo.png
+cover: https://random.imagecdn.app/500/500
 tags: css, js, html5, ArticlePlanet
 ---
 `;
@@ -67,10 +67,11 @@ tags: css, js, html5, ArticlePlanet
         //const metadataUrl = `${gistUrl}?title=${encodeURIComponent(title)}&publishdate=${encodeURIComponent(publishDate)}&canonical=${encodeURIComponent(canonical)}`;
         //window.open(metadataUrl, '_top');
         const gistID = responseData.id;
-        //location.href = location.origin + "/post.html?id=" + gistID ;
 
         // Inform the user about successful publishing
         swal('Published Successfully!', 'Your post has been published to GitHub Gist.', 'success');
+        location.href = location.origin + "/post.html?id=" + gistID ;
+
     } catch (error) {
         console.error('Error publishing to Gist:', error);
         swal('Error', 'Failed to publish the post. Check the console for details.', 'error');

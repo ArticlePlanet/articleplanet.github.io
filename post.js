@@ -99,9 +99,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         return metadata;
     }
-    document.getElementById('editbtn').addEventListener("click",function (){
-        let h = "../edit/index.html?id="+ gistId ;
-        location.href = h;
-    })
-    
+    document.getElementById("editbtn").href = "../edit/?id="+gistId;
+    document.getElementById("gist").href = "https://gist.github.com/"+gistId;
 });

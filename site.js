@@ -1,6 +1,8 @@
 
 
-
+if(localStorage.accessToken){
+    document.getElementById("account").innerText = "Account";
+}
 
 
 

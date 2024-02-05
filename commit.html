@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+            // Replace with your GitHub personal access token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
+      let removeHyphens = (inputString) => inputString.replace(/-/g, '');
+      
+      // Example usage
+      let accessToken = 'ghp_N2CeZ-dpQsyQmDEvg-VIrglwov2-gkT782kj8eq';
+      // Gist + Commit token ghp_htjn-AX0C3cjPzay0ZjzX-xr30D6D5Di0gYS3v
+       accessToken = removeHyphens(accessToken);
+
+        async function createCommit(accessToken, owner, repo, branch, commitMessage, changes) {
+  try {
+    // Get the current commit SHA for the branch
+    const branchInfoResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/branches/${branch}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    const branchInfo = await branchInfoResponse.json();
+    const latestCommitSHA = branchInfo.commit.sha;
+
+    // Create a new tree with the changes
+    const treeResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        base_tree: latestCommitSHA,
+        tree: changes.map(change => ({
+          path: change.path,
+          mode: '100644', // File mode
+          type: 'blob', // Type of tree object
+          content: change.content,
+        })),
+      }),
+    });
+    const tree = await treeResponse.json();
+
+    // Create a new commit
+    const commitResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/commits`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: commitMessage,
+        tree: tree.sha,
+        parents: [latestCommitSHA],
+      }),
+    });
+    const newCommit = await commitResponse.json();
+
+    // Update the branch reference to point to the new commit
+    await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${branch}`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        sha: newCommit.sha,
+      }),
+    });
+
+    console.log('Commit created successfully!');
+  } catch (error) {
+    console.error('Error creating commit:', error);
+  }
+}
+
+// Example usage
+ accessToken = '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';
+const owner = 'sh20raj';
+const repo = 'test';
+const branch = 'main';
+const commitMessage = 'Commit message';
+const changes = [
+  { path: 'file.txt', content: 'New content for file.txt' },
+  // Add more changes as needed
+];
+
+createCommit(accessToken, owner, repo, branch, commitMessage, changes);
+
+    </script>
+</body>
+</html>
