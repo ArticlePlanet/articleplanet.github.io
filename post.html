@@ -20,12 +20,6 @@
 <link href="assets/css/mediumish.css" rel="stylesheet">
 </head>
 <body>
-<script>
-	function edit(){
-        let h = "../edit/index.html?id="+ gistId ;
-        location.href = h;
-    }
-</script>
 <!-- Begin Nav
 ================================================== -->
 <nav class="navbar navbar-toggleable-md navbar-light bg-white fixed-top mediumnavigation">
@@ -45,7 +39,7 @@
 			<a class="nav-link" href="index.html">Stories <span class="sr-only">(current)</span></a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" href="../new/">Write</a>
+			<a class="nav-link" href="../new/">Write </a>
 			</li>
 			<li class="nav-item">
 			<a class="nav-link" href="login.html">Login</a>
@@ -67,6 +61,7 @@
 <!-- Begin Article
 ================================================== -->
 <div class="container">
+	
 	<div class="row">
 
 		<!-- Begin Fixed Left Share -->
@@ -111,13 +106,20 @@
 						  </svg>
 					</a>
 				</li>
-				<li></li>
+				<li>
 
 					<a href="#gist" id="gist">
 					 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
 					  </svg>
 					  
+					</a></li>
+
+					<a href="../new/">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+						  </svg>
+						  
 					</a>
 					
 					</li>
@@ -183,7 +185,7 @@
 ================================================== -->
 <div class="graybg">
 	<div class="container">
-		<div class="row listrecent listrelated">
+		<div id="postcontainer" class="row listrecent listrelated">
 
 			<!-- begin post -->
 			<div class="col-md-4">
@@ -265,11 +267,142 @@
 </div>
 <!-- End Related Posts
 ================================================== -->
-
+<!-- Begin Featured
+	================================================== -->
+	
+	  
+	<script>
+		document.addEventListener("DOMContentLoaded", async function () {
+		  // GitHub Gist API endpoint
+		  const gistApiEndpoint = "https://api.github.com/users/sh20raj/gists"; // Replace 'yourusername' with your GitHub username
+		  const tagToFilter = "ArticlePlanet"; // Replace with the specific tag you use for Article Planet Gists
+	  
+		  try {
+			// Fetch the list of Gists
+			const response = await fetch(gistApiEndpoint);
+			const gistsData = await response.json();
+	  
+			// Filter Gists that contain the specified tag in their descriptions
+			const articleGists = gistsData;
+	  
+			// Shuffle the array of articles to get random posts
+			const shuffledArticles = articleGists.sort(() => Math.random() - 0.5);
+	  
+			// Ensure exactly 3 posts are displayed
+			const selectedArticles = shuffledArticles.slice(0, 3);
+	  
+			// Extract relevant information from each Article Planet Gist
+			const articles = await Promise.all(
+			  selectedArticles.map(async (gist) => {
+				const title = gist.description || "Untitled";
+				const gistId = gist.id;
+				const gistUrl = gist.html_url;
+	  
+				// Extract date and cover URL from the Markdown content
+				const markdownContentResponse = await fetch(gist.files[Object.keys(gist.files)[0]].raw_url);
+				const markdownContent = await markdownContentResponse.text();
+	  
+				function extractMetadata(markdown) {
+				  const match = markdown.match(/^---([\s\S]*?)---([\s\S]*)/);
+				  const metadata = {};
+	  
+				  if (match && match[1]) {
+					const metadataText = match[1].trim();
+	  
+					metadataText.split("\n").forEach((line) => {
+					  const [key, ...valueParts] = line
+						.split(":")
+						.map((item) => item.trim());
+					  metadata[key] = valueParts
+						.join(":")
+						.replace(/(^"|"$)/g, "")
+						.trim();
+					});
+	  
+					// Convert tags to an array
+					metadata.tags = metadata.tags
+					  ? metadata.tags.split(",").map((tag) => tag.trim())
+					  : [];
+				  }
+	  
+				  return metadata;
+				}
+	  
+				const meta = extractMetadata(markdownContent);
+	  
+				if (!meta.ArticlePlanet) {
+				  return '';
+				}
+	  
+				function convertToRelativeDate(dateString) {
+				  const currentDate = new Date();
+				  const providedDate = new Date(dateString);
+				  const timeDifferenceInSeconds = Math.floor((currentDate - providedDate) / 1000);
+	  
+				  if (timeDifferenceInSeconds < 60) {
+					return 'just now';
+				  } else if (timeDifferenceInSeconds < 3600) {
+					const minutes = Math.floor(timeDifferenceInSeconds / 60);
+					return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+				  } else if (timeDifferenceInSeconds < 86400) {
+					const hours = Math.floor(timeDifferenceInSeconds / 3600);
+					return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+				  } else if (timeDifferenceInSeconds < 2592000) {
+					const days = Math.floor(timeDifferenceInSeconds / 86400);
+					return `${days} day${days > 1 ? 's' : ''} ago`;
+				  } else {
+					// You can add more conditions for months and years as needed
+					return 'more than a month ago';
+				  }
+				}
+	  
+				let date = convertToRelativeDate(meta.datePublished);
+				let coverUrl = meta.cover;
+	  
+				// Create HTML elements based on the fetched Gists
+				return `
+				  <div class="col-md-4">
+					<div class="card">
+					  <a href="post.html?id=${gistId}">
+						<img style="height: 200px;width: 100%;" class="img-fluid img-thumb" src="${coverUrl || "https://random.imagecdn.app/500/300" + "?id=" + gistId}" alt="">
+					  </a>
+					  <div class="card-block">
+						<h2 class="card-title"><a href="post.html?id=${gistId}">${title}</a></h2>
+						<div class="metafooter">
+						  <div class="wrapfooter">
+							<span class="meta-footer-thumb">
+							  <a href="author.html"><img class="author-thumb" src="${gist.owner.avatar_url}" alt="${gist.owner.login}"></a>
+							</span>
+							<span class="author-meta">
+							  <span class="post-name"><a href="author.html">${gist.owner.login}</a></span><br />
+							  <span class="post-date">${date}</span><span class="dot"></span><span class="post-read">6 min read</span>
+							</span>
+							<span class="post-read-more"><a href="post.html?id=${gistId}" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewBox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span>
+						  </div>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				`;
+			  })
+			);
+	  
+			// Insert the generated HTML into the postcontainer
+			document.getElementById("postcontainer").innerHTML = articles.join("");
+		  } catch (error) {
+			console.error("Error fetching Gists:", error);
+			document.getElementById("postcontainer").innerHTML = "<p>Error loading articles.</p>";
+		  }
+		});
+	  </script>
+	  
+	  <!-- End Featured
+		  ================================================== -->
+	  
 <!-- Begin Twitter Timeline
 ================================================== -->
 <div class="container margtop3rem">
-<a class="twitter-grid" href="https://twitter.com/">Social</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<a class="twitter-grid" href="https://codexdindia.blogspot.com/">Social</a> 
 </div>
 <!-- End Twitter Timeline
 ================================================== -->

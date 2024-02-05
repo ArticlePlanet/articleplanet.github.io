@@ -4,7 +4,6 @@ function createSlug(title) {
     return sanitizedTitle.replace(/-{2,}/g, '-');
 }
 
-
 // Function to publish content to GitHub Gist and open the Gist with metadata
 window.publish = async function () {
     const markdownContent = editor.getValue();
@@ -12,26 +11,26 @@ window.publish = async function () {
     const slug = createSlug(title);
 
     // Replace with your GitHub personal access token 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
-      let removeHyphens = (inputString) => inputString.replace(/-/g, '');
-      
-      // Example usage
-      let accessToken = removeHyphens('ghp_Ixw7ru-DuGAmi-DS58feJJp-I7IWKArPC-1SSlQo');
-      accessToken = localStorage.accessToken;
-      console.log(accessToken)
+    let removeHyphens = (inputString) => inputString.replace(/-/g, '');
+
+    // Example usage
+    let accessToken = removeHyphens('ghp_Ixw7ru-DuGAmi-DS58feJJp-I7IWKArPC-1SSlQo');
+    accessToken = localStorage.accessToken;
+    console.log(accessToken)
 
     // GitHub Gist API endpoint
     const gistApiEndpoint = 'https://api.github.com/gists';
 
-    // Metadata to include in the markdown file
-    const metadata = `---
+    // Metadata template to include in the markdown file
+    const metadataTemplate = `---
 title: "${title}"
 seoTitle: "${title}"
 seoDescription: "${title}"
 datePublished: ${new Date().toUTCString()}
-id: ${'id'}
+id: {gistID}  // Placeholder for gist ID, to be replaced after publishing
 slug: ${slug}
-ArticlePlanet: https://articleplanet.github.io/posts/
-canonical: https://articleplanet.github.io/posts/${slug}
+ArticlePlanet: https://articleplanet.github.io/posts/{gistID}  // Placeholder for gist ID, to be replaced after publishing
+canonical: https://articleplanet.github.io/posts/{gistID}  // Placeholder for gist ID, to be replaced after publishing
 cover: https://articleplanet.github.io/assets/dot.png
 tags: css, js, html5, ArticlePlanet
 ---
@@ -48,7 +47,7 @@ tags: css, js, html5, ArticlePlanet
             body: JSON.stringify({
                 files: {
                     [`${slug}.md`]: {
-                        content: metadata + markdownContent // Include metadata before the actual content
+                        content: metadataTemplate + markdownContent // Include metadata before the actual content
                     }
                 },
                 description: `${title}`, // Include the tag in the description
@@ -60,17 +59,31 @@ tags: css, js, html5, ArticlePlanet
 
         // Extract necessary information from the response
         const gistUrl = responseData.html_url;
-        //const publishDate = new Date().toUTCString();
-        //const canonical = gistUrl;
-
-        // Open the published Gist with metadata in a new window
-        //const metadataUrl = `${gistUrl}?title=${encodeURIComponent(title)}&publishdate=${encodeURIComponent(publishDate)}&canonical=${encodeURIComponent(canonical)}`;
-        //window.open(metadataUrl, '_top');
         const gistID = responseData.id;
+
+        // Replace placeholders with actual gist ID in metadata
+        const updatedMetadata = metadataTemplate.replace(/{gistID}/g, gistID);
+        console.log(updatedMetadata);
+
+        // Update the Gist with the correct metadata
+        await fetch(gistUrl, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+                files: {
+                    [`${slug}.md`]: {
+                        content: updatedMetadata + markdownContent // Include updated metadata before the actual content
+                    }
+                }
+            })
+        });
 
         // Inform the user about successful publishing
         swal('Published Successfully!', 'Your post has been published to GitHub Gist.', 'success');
-        location.href = location.origin + "/post.html?id=" + gistID ;
+        location.href = location.origin + "/post.html?id=" + gistID;
 
     } catch (error) {
         console.error('Error publishing to Gist:', error);
