@@ -10,6 +10,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get("token");
         localStorage.accessToken = token;
+        localStorage.username = urlParams.get("username");
         location.href = "../";
     </script>
 </body>

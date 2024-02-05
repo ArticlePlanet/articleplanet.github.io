@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById("editbtn").href = "../edit/?id="+gistId;
     document.getElementById("gist").href = "https://gist.github.com/"+gistId;
     document.getElementById("author").innerText = gistData.owner.login;
-    document.getElementById("author").href = "author.html?id="+gistData.owner.login;
+    document.getElementById("author").href = "user.html?id="+gistData.owner.login;
     document.getElementById("avatar").src = gistData.owner.avatar_url;
     console.log(gistData.owner.avatar_url)
 
