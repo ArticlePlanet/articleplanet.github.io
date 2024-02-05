@@ -3,6 +3,7 @@ function createSlug(title) {
     const sanitizedTitle = title.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
     return sanitizedTitle.replace(/-{2,}/g, '-');
 }
+if(!localStorage.accessToken) location.href = "../login.html?from=new";
 
 // Function to publish content to GitHub Gist and open the Gist with metadata
 window.publish = async function () {
