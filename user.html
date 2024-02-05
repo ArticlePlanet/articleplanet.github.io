@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArticlePlanet | Author</title>
+  <link rel="icon" href="../logo.png" />
+  <style>
+    body {
+      justify-content: center;
+      align-items: center;
+      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+    }
+
+    .user-profile {
+      text-align: center;
+    }
+
+    .user-profile img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+    }
+
+    .user-profile h2 {
+      margin-top: 10px;
+    }
+
+    .user-profile p {
+      margin-bottom: 5px;
+    }
+
+    .github {
+      display: flex;
+      align-items: center;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      background-color: #24292e;
+      color: #ffffff;
+      cursor: pointer;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .github:hover {
+      background-color: #0366d6;
+      transform: scale(1.05);
+    }
+
+    .github svg {
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+      fill: #ffffff;
+    }
+
+    .animated-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .animated-background::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, #f8e71c, #f632ab, #405de6, #009688, #f44336, #f8e71c);
+      background-size: 300% 300%;
+      animation: animateBackground 20s ease-in-out infinite;
+    }
+
+    @keyframes animateBackground {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .login-container {
+      text-align: center;
+    }
+
+    .login-container .github {
+      display: block;
+      margin: 0 auto;
+      margin-top: 20px;
+    }
+  </style>
+  <!-- Bootstrap core CSS -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Fonts -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="assets/css/mediumish.css" rel="stylesheet" />
+
+</head>
+
+<body class="container">
+  <!-- Begin Nav
+================================================== -->
+  <nav class="navbar navbar-toggleable-md navbar-light bg-white fixed-top mediumnavigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="container">
+      <!-- Begin Logo -->
+      <a class="navbar-brand" href="index.html">
+        <img src="logo.png" alt="logo" />
+      </a>
+      <!-- End Logo -->
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <!-- Begin Menu -->
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="new/">Write</a>
+          </li>
+          <li class="nav-item">
+            <a id="account" class="nav-link" href="login.html">Login</a>
+          </li>
+        </ul>
+        <!-- End Menu -->
+        <!-- Begin Search -->
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" />
+          <span class="search-icon"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25">
+              <path
+                d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z">
+              </path>
+            </svg></span>
+        </form>
+        <!-- End Search -->
+      </div>
+    </div>
+  </nav>
+  <!-- End Nav
+================================================== -->
+
+  <div class="user-profile" id="userProfile" hidden>
+    <img id="profilePicture" src="" alt="Profile Picture">
+    <h2 id="userName"></h2>
+    <p><strong>User ID:</strong> <span id="userId"></span></p>
+    <p><strong>Login:</strong> <span id="userLogin"></span></p>
+    <p style="
+        /* text-align: center; */
+        display: flex;
+        /* text-align: center; */
+        justify-content: center;
+    "></p>
+  </div>
+  <!-- HTML content for author.html -->
+
+  <br>
+  <!-- Begin List Posts
+	================================================== -->
+  <section id="stories" class="recent-posts">
+    <div class="section-title">
+      <h2><span>All Stories</span></h2>
+    </div>
+    <div id="section2-container" class="card-columns listrecent">
+    </div>
+  </section>
+  <!-- Container for Section 2 -->
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('id');
+    document.addEventListener("DOMContentLoaded", async function () {
+      // GitHub Gist API endpoint
+      const gistApiEndpoint = "https://api.github.com/users/" + (username) + "/gists"; // Replace 'yourusername' with your GitHub username
+      const tagToFilter = "ArticlePlanet"; // Replace with the specific tag you use for Article Planet Gists
+
+      try {
+        // Fetch the list of Gists
+        const response = await fetch(gistApiEndpoint);
+        const gistsData = await response.json();
+
+        // Filter Gists that contain the specified tag in their descriptions
+        const articleGists = gistsData;
+
+        // Extract relevant information from each Article Planet Gist
+        const articles = await Promise.all(
+          articleGists.map(async (gist) => {
+            const title = gist.description || "Untitled";
+            const gistId = gist.id;
+            const gistUrl = gist.html_url;
+
+            // Extract date and cover URL from the Markdown content
+            const markdownContentResponse = await fetch(
+              gist.files[Object.keys(gist.files)[0]].raw_url
+            );
+            const markdownContent = await markdownContentResponse.text();
+
+            function extractMetadata(markdown) {
+              const match = markdown.match(/^---([\s\S]*?)---([\s\S]*)/);
+              const metadata = {};
+
+              if (match && match[1]) {
+                const metadataText = match[1].trim();
+
+                metadataText.split("\n").forEach((line) => {
+                  const [key, ...valueParts] = line
+                    .split(":")
+                    .map((item) => item.trim());
+                  metadata[key] = valueParts
+                    .join(":")
+                    .replace(/(^"|"$)/g, "")
+                    .trim();
+                });
+
+                // Convert tags to an array
+                metadata.tags = metadata.tags
+                  ? metadata.tags.split(",").map((tag) => tag.trim())
+                  : [];
+              }
+
+              return metadata;
+            }
+
+            const meta = extractMetadata(markdownContent);
+            console.log(meta.title);
+            if (!meta.ArticlePlanet) {
+              return '';
+            }
+
+            function convertToRelativeDate(dateString) {
+              const currentDate = new Date();
+              const providedDate = new Date(dateString);
+
+              const timeDifferenceInSeconds = Math.floor((currentDate - providedDate) / 1000);
+
+              if (timeDifferenceInSeconds < 60) {
+                return 'just now';
+              } else if (timeDifferenceInSeconds < 3600) {
+                const minutes = Math.floor(timeDifferenceInSeconds / 60);
+                return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+              } else if (timeDifferenceInSeconds < 86400) {
+                const hours = Math.floor(timeDifferenceInSeconds / 3600);
+                return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+              } else if (timeDifferenceInSeconds < 2592000) {
+                const days = Math.floor(timeDifferenceInSeconds / 86400);
+                return `${days} day${days > 1 ? 's' : ''} ago`;
+              } else {
+                // You can add more conditions for months and years as needed
+                return 'more than a month ago';
+              }
+            }
+
+            let date = convertToRelativeDate(meta.datePublished);
+            let coverUrl = meta.cover;
+            console.log(coverUrl);
+
+            // Create HTML elements based on the fetched Gists
+            return `
+            <!-- begin post -->
+      <div class="card">
+        <a href="post.html?id=${gistId}">
+          <img class="img-fluid" src="${coverUrl || "https://random.imagecdn.app/500/500" + "?id=" + gistId}" alt="" />
+        </a>
+        <div class="card-block">
+          <h2 class="card-title">
+            <a href="posts/${gistId}"
+              >${title}?</a
+            >
+          </h2>
+          <h4 class="card-text">
+            
+          </h4>
+          <div class="metafooter">
+            <div class="wrapfooter">
+              <span class="meta-footer-thumb">
+                <a href="author.html?id=${gist.owner.login}"
+                  ><img
+                    class="author-thumb"
+                    src="${gist.owner.avatar_url}"
+                    alt="${gist.owner.avatar_url}"
+                /></a>
+              </span>
+              <span class="author-meta">
+                <span class="post-name"><a href="author.html">${gist.owner.login}</a></span
+                ><br />
+                <span class="post-date">${date}</span
+                ><span class="dot"></span
+                ><span class="post-read">2 min read</span>
+              </span>
+              <span class="post-read-more"
+                ><a href="posts/${gistId}" title="Read Story"
+                  ><svg
+                    class="svgIcon-use"
+                    width="25"
+                    height="25"
+                    viewbox="0 0 25 25"
+                  >
+                    <path
+                      d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z"
+                      fill-rule="evenodd"
+                    ></path></svg></a
+              ></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end post -->
+            `;
+          })
+        );
+
+        // Insert the generated HTML into the postcontainer
+        document.getElementById("section2-container").innerHTML =
+          articles.join("");
+      } catch (error) {
+        console.error("Error fetching Gists:", error);
+        document.getElementById("section2-container").innerHTML =
+          "<p>Error loading articles.</p>";
+      }
+    });
+  </script>
+
+  <!-- End List Posts
+================================================== -->
+
+
+
+  <!-- HTML content for author.html -->
+  <div id="userProfile" hidden>
+    <img id="profilePicture" alt="Profile Picture">
+    <p>Name: <span id="userName"></span></p>
+    <p>User ID: <span id="userId"></span></p>
+    <p>Username: <span id="userLogin"></span></p>
+    <button id="logoutButton">Logout</button>
+  </div>
+
+  <script>
+    async function fetchUserData(username) {
+      try {
+        // Fetch user details using the GitHub API
+        const userResponse = await fetch(`https://api.github.com/users/${username}`);
+        const user = await userResponse.json();
+
+        // Update HTML elements with user details
+        document.getElementById('profilePicture').src = user.avatar_url;
+        document.getElementById('userName').innerText = user.name || user.login;
+        document.getElementById('userId').innerText = user.id;
+        document.getElementById('userLogin').innerText = user.login;
+
+        // Display the user profile div
+        document.getElementById('userProfile').removeAttribute('hidden');
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const username = localStorage.getItem('username');
+
+      if (username) {
+        // Username is present in localStorage
+        // Fetch user details using the GitHub API
+        fetchUserData(username);
+      } else {
+        // Username is not present in localStorage
+        // You can add your existing logic for initiating GitHub OAuth login
+        // ...
+
+        // Example:
+        // document.getElementById('login-button').addEventListener('click', loginWithGitHub);
+      }
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', function () {
+      // Logout logic
+      localStorage.removeItem('username');
+      document.getElementById('userProfile').setAttribute('hidden', 'true');
+    });
+  </script>
+
+
+  <div class="container">
+    <div class="footer">
+      <p class="pull-left">Copyright © 2024 ArticlePlanet</p>
+      <p class="pull-right">
+        ArticlePlanet by
+        <a target="_blank" href="https://linktr.ee/cxdiin">CXDI</a>
+      </p>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+</body>
+
+</html>
