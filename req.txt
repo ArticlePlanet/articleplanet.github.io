@@ -1,1 +1,8 @@
 https://chat.openai.com/share/ced35a3f-3c40-4c01-9104-039e317dac20
+
+      let removeHyphens = (inputString) => inputString.replace(/-/g, '');
+      
+      // Example usage
+      let accessToken = 'ghp_N2CeZ-dpQsyQmDEvg-VIrglwov2-gkT782kj8eq';
+      // Gist + Commit token ghp_htjn-AX0C3cjPzay0ZjzX-xr30D6D5Di0gYS3v
+       accessToken = removeHyphens(accessToken);

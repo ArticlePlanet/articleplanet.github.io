@@ -9,7 +9,8 @@ window.publish = async function () {
     const title = document.getElementById('title').value;
     const slug = createSlug(title);
 
-    // Replace with your GitHub personal access token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
+    // Replace with your GitHub personal access token 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
+    //
       let removeHyphens = (inputString) => inputString.replace(/-/g, '');
       
       // Example usage
