@@ -221,10 +221,35 @@ span.post-name a,span.post-read-more a:hover {
 	font-size:1.2rem;
 	line-height:1.8;
 	color:rgba(0,0,0,.8);
+	overflow: auto;
 }
 .article-post img {
 	max-width: 100%;
 }
+/* Default styles for the list */
+
+
+/* Default style for each list item */
+.svg-list li {
+    margin: 10px;
+}
+
+/* Default style for SVG */
+.svg-list a svg {
+    width: 24px; /* Set the desired width */
+    height: 24px; /* Set the desired height */
+}
+
+/* Media query for screens larger than 768px (adjust as needed) */
+@media (max-width: 768px) {
+    /* Horizontal list for desktop */
+    .svg-list {
+		list-style: none;
+		padding: 0;
+	}
+}
+
+
 blockquote {
 	border-left:4px solid #00ab6b;
 	padding:0 20px;
