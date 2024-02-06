@@ -31,8 +31,8 @@ datePublished: ${new Date().toUTCString()}
 id: {gistID}
 slug: ${slug}
 ArticlePlanet: https://articleplanet.github.io/posts/{gistID} 
-canonical: https://articleplanet.github.io/posts/{gistID}
-cover: https://articleplanet.github.io/assets/dot.png
+canonical: https://articleplanet.github.io/post.html?id={gistID}
+cover: 
 tags: css, js, html5, ArticlePlanet
 ---
 `;
@@ -74,7 +74,7 @@ async function saveToGitHubGist(markdownContent, gistId) {
             swal("Changes Saved Successfully!", "", "success");
             // Inform the user about successful publishing
         swal('Published Successfully!', 'Your post has been published to GitHub Gist.', 'success');
-       // location.href = location.origin + "/post.html?id=" + gistID;
+        location.href = location.origin + "/post/" + gistID;
 
         } else {
             console.error("Error updating Gist:", response.statusText);
