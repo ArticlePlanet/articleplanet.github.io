@@ -107,6 +107,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById("author").href = "user.html?id="+gistData.owner.login;
     document.getElementById("avatar").src = gistData.owner.avatar_url;
     console.log(gistData.owner.avatar_url)
+    document.getElementById("vclink").href = "https://visitorbadge.io/status?path="+ gistId;
+    document.getElementById("vclink").src = "https://visitorbadge.io/status?path="+ gistId;
+
 
 });
 
