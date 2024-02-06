@@ -84,9 +84,9 @@
           id="browsersavebutton"
           title="Browser Save (Experimental)"
           class="navbutton right"
-          onclick="saveInBrowser()"
+          onclick=""
         >
-          <i class="material-icons">save</i>
+          <i class="material-icons">visibility</i>
         </p>
         <p
           id="sharebutton"
@@ -226,7 +226,7 @@
         // Check if the update was successful
         if (response.ok) {
             // Inform the user about successful saving
-            saveInBrowser();
+            
             swal("Changes Saved Successfully!", "", "success");
         } else {
             console.error("Error updating Gist:", response.statusText);

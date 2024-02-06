@@ -7,6 +7,7 @@ if (localStorage.accessToken) {
 img.width = "0";
   img.alt = "Image For Analysis Purpose";
   document.body.appendChild(img);
+img.hidden = true;
   
   // Create a script element for gtag.js
   var scriptElement = document.createElement('script');
@@ -27,6 +28,7 @@ img.width = "0";
   
   // Append the gtag configuration script element to the head tag
   document.head.appendChild(configScript);
+  
   
   class ParseMark {
     constructor(markdown) {

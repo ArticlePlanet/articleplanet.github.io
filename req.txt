@@ -7,3 +7,5 @@ https://chat.openai.com/share/2079901c-7285-46a3-9fd2-a84281be4aa3
       let accessToken = 'ghp_N2CeZ-dpQsyQmDEvg-VIrglwov2-gkT782kj8eq';
       // Gist + Commit token ghp_htjn-AX0C3cjPzay0ZjzX-xr30D6D5Di0gYS3v
        accessToken = removeHyphens(accessToken);
+
+       // All permissions :- ghp_o9rrOzy-VgProtq03vZ-cW5sZA6-QAttm31Ra48
