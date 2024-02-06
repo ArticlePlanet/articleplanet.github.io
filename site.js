@@ -27,6 +27,7 @@ if (localStorage.accessToken) {
   // Append the gtag configuration script element to the head tag
   document.head.appendChild(configScript);
   
+  
   class ParseMark {
     constructor(markdown) {
       this.markdown = markdown;

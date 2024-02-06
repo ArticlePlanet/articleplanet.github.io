@@ -142,3 +142,33 @@ async function deletePost() {
         // Handle error, show a message, etc.
     }
 }
+
+// Sample metadata.tags array
+
+// Function to generate HTML for tags
+function generateTagsHTML(tags) {
+  const tagsList = document.createElement('ul');
+  tagsList.classList.add('tags');
+
+  tags.forEach(tag => {
+    const tagItem = document.createElement('li');
+    const tagLink = document.createElement('a');
+    tagLink.href = '#';  // Replace with the actual URL for the tag
+
+    // Assuming you want to display the tag in title case (first letter uppercase)
+    const formattedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+    
+    tagLink.textContent = formattedTag;
+    tagItem.appendChild(tagLink);
+    tagsList.appendChild(tagItem);
+  });
+
+  return tagsList.outerHTML;
+}
+
+// Example usage
+const tagsHTML = generateTagsHTML(metadata.tags);
+
+// Insert the generated HTML into your desired element
+document.querySelector('.after-post-tags').innerHTML = tagsHTML;
+
