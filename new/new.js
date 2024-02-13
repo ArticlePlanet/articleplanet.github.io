@@ -108,8 +108,8 @@ async function saveToGitHubGist(markdownContent, gistId) {
         const responseData = await response.json();
 
         // Extract necessary information from the response
-        const gistUrl = responseData.html_url;
-        const gistID = responseData.id;
+        window.gistUrl = responseData.html_url;
+        window.gistID = responseData.id;
 
         // Replace placeholders with actual gist ID in metadata
         const updatedMetadata = metadataTemplate.replace(/{gistID}/g, gistID);
