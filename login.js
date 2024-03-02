@@ -1,7 +1,8 @@
 let removeHyphens = (inputString) => inputString.replace(/-/g, '');
 
 // Replace these values with your GitHub OAuth App credentials
-const clientIdWithHyphens = '11de-8f416159-bc1b5bf2';
+// const clientIdWithHyphens = '11de-8f416159-bc1b5bf2';
+const clientIdWithHyphens = '7b0719-3882ecb-0cff6d0';
 const clientId = removeHyphens(clientIdWithHyphens);
 const redirectUri = 'https://articleplanet.vercel.app/login.html';
 const scope = 'user,gist,repo';
@@ -25,7 +26,7 @@ function getGitHubAccessToken() {
 // Function to exchange authorization code for access token
 async function exchangeCodeForToken(authorizationCode) {
     try {
-        const response = await fetch('https://login-articleplanet.vercel.app/', {
+        const response = await fetch('https://login-articleplanet2-git-articleplanet-sh-rajs-projects.vercel.app/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
