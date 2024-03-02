@@ -4,7 +4,7 @@ let removeHyphens = (inputString) => inputString.replace(/-/g, '');
 // const clientIdWithHyphens = '11de-8f416159-bc1b5bf2';
 const clientIdWithHyphens = '7b0719-3882ecb-0cff6d0';
 const clientId = removeHyphens(clientIdWithHyphens);
-const redirectUri = 'https://articleplanet.vercel.app/login.html';
+const redirectUri = 'https://articleplanet.github.io/login.html';
 const scope = 'user,gist,repo';
 
 // Function to initiate GitHub OAuth login
