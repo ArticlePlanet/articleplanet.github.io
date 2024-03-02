@@ -26,7 +26,7 @@ function getGitHubAccessToken() {
 // Function to exchange authorization code for access token
 async function exchangeCodeForToken(authorizationCode) {
     try {
-        const response = await fetch('https://login-articleplanet2-git-articleplanet-sh-rajs-projects.vercel.app/', {
+        const response = await fetch('https://login-articleplanet-eight.vercel.app/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
